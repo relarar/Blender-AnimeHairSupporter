@@ -80,3 +80,13 @@ class VIEW3D_PT_tools_anime_hair_supporter(bpy.types.Panel):
 					is_successed = True
 			except: is_successed = False
 		if not is_successed: box.label(text="解像度:")
+		
+		
+		row = self.layout.row(align=True)
+		row.operator('object.convert', text="メッシュ化", icon='MESH_ICOSPHERE').target = 'MESH'
+		for ob in context.selected_objects:
+			if ob.type != 'CURVE': continue
+			if ob.data.taper_object and ob.data.bevel_object:
+				row.enabled = True
+				break
+		else: row.enabled = False

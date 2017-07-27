@@ -18,13 +18,14 @@ class ahs_meshedge_to_curve(bpy.types.Operator):
 		new_objects = []
 		for ob in context.selected_objects:
 			if ob.type != 'MESH': continue
+			if len(ob.data.vertices) < 2 or len(ob.data.edges) < 1 or len(ob.data.polygons): continue
 			
 			bm = bmesh.new()
 			bm.from_mesh(ob.data)
 			
 			separated_verts = []
 			already_edges = []
-			while True:
+			for i in range(len(bm.verts) * 2):
 				
 				# まだ拾ってない開始頂点/辺を検索
 				current_vert, current_edge = None, None
@@ -39,12 +40,13 @@ class ahs_meshedge_to_curve(bpy.types.Operator):
 						break
 					if current_edge: break
 				# 離脱
+				else: break
 				if not current_edge: break
 				
 				# 辿っていく
 				local_verts = [current_vert]
-				while True:
-					# 拾ったとする
+				for j in range(len(bm.verts) * 2):
+					# すでに拾ったもとと登録
 					already_edges.append(current_edge)
 					# 次の頂点を現在頂点に
 					current_vert = current_edge.other_vert(current_vert)
@@ -57,6 +59,8 @@ class ahs_meshedge_to_curve(bpy.types.Operator):
 						if edge != current_edge:
 							current_edge = edge
 							break
+				# 離脱
+				else: break
 				# 結果をアペンド
 				separated_verts.append(local_verts)
 			

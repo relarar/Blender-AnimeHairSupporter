@@ -5,6 +5,8 @@ class ahs_meshedge_to_curve(bpy.types.Operator):
 	bl_label = "辺メッシュ > カーブ"
 	bl_options = {'REGISTER', 'UNDO'}
 	
+	surplus_transform_multi = bpy.props.FloatProperty(name="余剰変形", default=0.5, min=-1, max=1, soft_min=-1, soft_max=1, step=3, precision=2)
+	
 	@classmethod
 	def poll(cls, context):
 		try:
@@ -13,6 +15,9 @@ class ahs_meshedge_to_curve(bpy.types.Operator):
 			else: return False
 		except: return False
 		return True
+	
+	def draw(self, context):
+		self.layout.prop(self, 'surplus_transform_multi', slider=True)
 	
 	def execute(self, context):
 		new_objects = []
@@ -65,17 +70,19 @@ class ahs_meshedge_to_curve(bpy.types.Operator):
 				separated_verts.append(local_verts)
 			
 			for local_verts in separated_verts:
+				local_points = [ob.matrix_world * v.co for v in local_verts]
 				
 				# グローバルZ軸が上の頂点を開始地点とする
-				begin_co = ob.matrix_world * local_verts[0].co
-				end_co   = ob.matrix_world * local_verts[-1].co
-				if begin_co.z < end_co.z: local_verts.reverse()
+				begin_co = local_points[0]
+				end_co   = local_points[-1]
+				if begin_co.z < end_co.z:
+					local_verts.reverse(), local_points.reverse()
 				
 				# カーブとオブジェクトを新規作成してリンク
 				name = ob.name + ":HairCurve"
 				curve = context.blend_data.curves.new(name, 'CURVE')
 				curve_ob = context.blend_data.objects.new(name, curve)
-				curve_ob.matrix_world = mathutils.Matrix.Translation(ob.matrix_world * local_verts[0].co)
+				curve_ob.matrix_world = mathutils.Matrix.Translation(local_points[0])
 				context.scene.objects.link(curve_ob)
 				new_objects.append(curve_ob)
 				
@@ -84,19 +91,24 @@ class ahs_meshedge_to_curve(bpy.types.Operator):
 				
 				# スプライン＆ポイントを作成
 				spline = curve.splines.new('NURBS')
-				spline.points.add(len(local_verts) - 1)
-				for point, vert in zip(spline.points, local_verts):
-					point.co = list(curve_ob.matrix_world.inverted() * (ob.matrix_world * vert.co))[:] + [1.0]
+				spline.points.add(len(local_points) - 1)
+				for index, (point, co) in enumerate(zip(spline.points, local_points)):
+					if index != 0 and len(local_points) - 1 != index:
+						prev_line = co - local_points[index - 1]
+						next_line = co - local_points[index + 1]
+						co += prev_line.lerp(next_line, 0.5) * self.surplus_transform_multi
+					point.co = list(curve_ob.matrix_world.inverted() * co) + [1.0]
 				
 				# スプラインの設定
 				spline.order_u = 3
 				spline.use_endpoint_u = True
 			
 			bm.free()
-			context.scene.objects.unlink(ob)
+			
+			#context.scene.objects.unlink(ob)
 		
 		# 新規オブジェクトをアクティブ＆選択
-		if len(new_objects): context.scene.objects.active = new_objects[0]
-		for new_object in new_objects: new_object.select = True
+		#if len(new_objects): context.scene.objects.active = new_objects[0]
+		#for new_object in new_objects: new_object.select = True
 		
 		return {'FINISHED'}

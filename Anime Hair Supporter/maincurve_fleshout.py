@@ -13,21 +13,24 @@ class ahs_maincurve_fleshout(bpy.types.Operator):
 	taper_type = bpy.props.EnumProperty(items=items, name="テーパー", default='Tapered')
 	
 	items = [
-		('Sphere', "円", "", 'SURFACE_NCIRCLE'),
+		('Sphere', "円", "", 'MESH_CIRCLE'),
 		('2', "2本", "", 'OUTLINER_OB_META'),
 		('3', "3本", "", 'COLLAPSEMENU'),
+		('Triangle', "三角", "", 'EDITMODE_VEC_HLT'),
+		('TriangleLoose', "ゆるやか三角", "", 'PLAY_REVERSE'),
 		('Square', "四角", "", 'MESH_PLANE'),
 		('SquareLoose', "ゆるやか四角", "", 'SNAP_VOLUME'),
 		('Diamond', "ひし形", "", 'SPACE3'),
-		('DiamondLoose', "ゆるやかひし形", "", 'SPACE2'),
+		('DiamondLoose', "ゆるやかひし形", "", 'KEYTYPE_EXTREME_VEC'),
 		('Sharp', "シャープ", "", 'LINCURVE'),
 		('Leaf', "葉っぱ", "", 'MAN_ROT'),
 		('V', "切り込み", "", 'FILE_TICK'),
-		('Tilde', "～", "", 'IPO_EASE_IN_OUT'),
+		('Tilde', "波", "", 'IPO_EASE_IN_OUT'),
+		('Step', "段差", "", 'IPO_CONSTANT'),
 		('Corrugated', "ギザギザ", "", 'RNDCURVE'),
 		]
 	for i, item in enumerate(items): items[i] = tuple(list(item) + [i + 1])
-	bevel_type = bpy.props.EnumProperty(items=items, name="ベベル", default='Sphere')
+	bevel_type = bpy.props.EnumProperty(items=items, name="ベベル", default='Sharp')
 	
 	scale = bpy.props.FloatProperty(name="サイズ", default=0.2, min=0, max=10, soft_min=0, soft_max=10, step=3, precision=2)
 	scale_y = bpy.props.FloatProperty(name="平たさ", default=0.5, min=0, max=1, soft_min=0, soft_max=1, step=3, precision=2)

@@ -5,7 +5,7 @@ class ahs_maincurve_surplus_transform(bpy.types.Operator):
 	bl_label = "余剰変形"
 	bl_options = {'REGISTER', 'UNDO'}
 	
-	surplus_transform_multi = bpy.props.FloatProperty(name="余剰変形", default=0.5, min=-1, max=1, soft_min=-1, soft_max=1, step=3, precision=2)
+	surplus_transform_multi = bpy.props.FloatProperty(name="余剰変形", default=0.5, min=-1, max=2, soft_min=-1, soft_max=2, step=3, precision=2)
 	
 	@classmethod
 	def poll(cls, context):

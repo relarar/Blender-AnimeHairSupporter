@@ -12,6 +12,9 @@ class ahs_tapercurve_move(bpy.types.Operator):
 		]
 	mode = bpy.props.EnumProperty(items=items, name="モード", default='BOTH')
 	
+	is_location = bpy.props.BoolProperty(name="位置", default=True)
+	is_rotation = bpy.props.BoolProperty(name="回転", default=False)
+	
 	@classmethod
 	def poll(cls, context):
 		try:
@@ -21,6 +24,13 @@ class ahs_tapercurve_move(bpy.types.Operator):
 			else: return False
 		except: return False
 		return True
+	
+	def draw(self, context):
+		self.layout.prop(self, 'mode')
+		
+		row = self.layout.row(align=True)
+		row.prop(self, 'is_location', icon='MAN_TRANS', toggle=True)
+		row.prop(self, 'is_rotation', icon='MAN_ROT', toggle=True)
 	
 	def execute(self, context):
 		if self.mode == 'TAPER': taper_or_bevel_objects = [c.taper_object for c in context.blend_data.curves if c.taper_object]
@@ -47,15 +57,16 @@ class ahs_tapercurve_move(bpy.types.Operator):
 			if not len(parent_ob.data.splines): continue
 			
 			# 位置変更
-			end_co = parent_ob.matrix_world * mathutils.Vector(parent_ob.data.splines[0].points[-1].co[:3])
-			ob.location = end_co.copy()
+			if self.is_location:
+				end_co = parent_ob.matrix_world * mathutils.Vector(parent_ob.data.splines[0].points[-1].co[:3])
+				ob.location = end_co.copy()
 			
 			# 回転変更
-			diff_co = parent_ob.matrix_world * mathutils.Vector(parent_ob.data.splines[0].points[-1].co[:3]) - parent_ob.matrix_world * mathutils.Vector(parent_ob.data.splines[0].points[0].co[:3])
-			rotation_z = math.atan2(diff_co.y, diff_co.x)
-			ob.rotation_mode = 'XYZ'
-			
-			if parent_ob.data.taper_object == ob: ob.rotation_euler.z = rotation_z
-			elif parent_ob.data.bevel_object == ob: ob.rotation_euler.z = rotation_z - math.radians(90)
+			if self.is_rotation:
+				diff_co = parent_ob.matrix_world * mathutils.Vector(parent_ob.data.splines[0].points[-1].co[:3]) - parent_ob.matrix_world * mathutils.Vector(parent_ob.data.splines[0].points[0].co[:3])
+				rotation_z = math.atan2(diff_co.y, diff_co.x)
+				ob.rotation_mode = 'XYZ'
+				if parent_ob.data.taper_object == ob: ob.rotation_euler.z = rotation_z
+				elif parent_ob.data.bevel_object == ob: ob.rotation_euler.z = rotation_z - math.radians(90)
 		
 		return {'FINISHED'}

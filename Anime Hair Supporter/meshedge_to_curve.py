@@ -5,7 +5,8 @@ class ahs_meshedge_to_curve(bpy.types.Operator):
 	bl_label = "辺メッシュ > カーブ"
 	bl_options = {'REGISTER', 'UNDO'}
 	
-	surplus_transform_multi = bpy.props.FloatProperty(name="余剰変形", default=0.5, min=-1, max=1, soft_min=-1, soft_max=1, step=3, precision=2)
+	order_u = bpy.props.IntProperty(name="次数", default=3, min=3, max=6, soft_min=3, soft_max=6)
+	surplus_transform_multi = bpy.props.FloatProperty(name="余剰変形", default=0.5, min=-1, max=2, soft_min=-1, soft_max=2, step=3, precision=2)
 	
 	@classmethod
 	def poll(cls, context):
@@ -17,6 +18,7 @@ class ahs_meshedge_to_curve(bpy.types.Operator):
 		return True
 	
 	def draw(self, context):
+		self.layout.prop(self, 'order_u')
 		self.layout.prop(self, 'surplus_transform_multi', slider=True)
 	
 	def execute(self, context):
@@ -100,7 +102,7 @@ class ahs_meshedge_to_curve(bpy.types.Operator):
 					point.co = list(curve_ob.matrix_world.inverted() * co) + [1.0]
 				
 				# スプラインの設定
-				spline.order_u = 3
+				spline.order_u = self.order_u
 				spline.use_endpoint_u = True
 			
 			bm.free()

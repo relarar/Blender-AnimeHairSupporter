@@ -21,8 +21,5 @@ class ahs_tapercurve_hide(bpy.types.Operator):
 		else: taper_or_bevel_objects = [c.bevel_object for c in context.blend_data.curves if c.bevel_object]
 		
 		for ob in taper_or_bevel_objects:
-			if not self.is_hide and ob.name not in context.scene.objects.keys():
-				context.scene.objects.link(ob)
-			elif self.is_hide and ob.name in context.scene.objects.keys():
-				context.scene.objects.unlink(ob)
+			ob.hide = self.is_hide
 		return {'FINISHED'}

@@ -1,4 +1,4 @@
-import bpy, mathutils
+import bpy, mathutils, math
 
 class ahs_tapercurve_move(bpy.types.Operator):
 	bl_idname = 'object.ahs_tapercurve_move'
@@ -11,7 +11,7 @@ class ahs_tapercurve_move(bpy.types.Operator):
 	def poll(cls, context):
 		try:
 			taper_and_bevel_objects = [c.taper_object for c in context.blend_data.curves if c.taper_object] + [c.bevel_object for c in context.blend_data.curves if c.bevel_object]
-			for ob in context.selected_objects:
+			for ob in context.blend_data.objects:
 				if ob in taper_and_bevel_objects: break
 			else: return False
 		except: return False
@@ -22,7 +22,7 @@ class ahs_tapercurve_move(bpy.types.Operator):
 		else: taper_or_bevel_objects = [c.bevel_object for c in context.blend_data.curves if c.bevel_object]
 		
 		target_zips = []
-		for ob in context.selected_objects:
+		for ob in context.blend_data.objects:
 			if ob.type != 'CURVE': continue
 			if ob not in taper_or_bevel_objects: continue
 			
@@ -38,7 +38,16 @@ class ahs_tapercurve_move(bpy.types.Operator):
 		
 		for ob, parent_ob in target_zips:
 			if not len(parent_ob.data.splines): continue
+			
+			# 位置変更
 			end_co = parent_ob.matrix_world * mathutils.Vector(parent_ob.data.splines[0].points[-1].co[:3])
 			ob.location = end_co.copy()
+			
+			# 回転変更
+			diff_co = parent_ob.matrix_world * mathutils.Vector(parent_ob.data.splines[0].points[-1].co[:3]) - parent_ob.matrix_world * mathutils.Vector(parent_ob.data.splines[0].points[0].co[:3])
+			rotation_z = math.atan2(diff_co.y, diff_co.x)
+			ob.rotation_mode = 'XYZ'
+			if not self.is_bevel: ob.rotation_euler.z = rotation_z
+			else: ob.rotation_euler.z = rotation_z - math.radians(90)
 		
 		return {'FINISHED'}

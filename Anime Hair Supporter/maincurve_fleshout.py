@@ -6,17 +6,27 @@ class ahs_maincurve_fleshout(bpy.types.Operator):
 	bl_options = {'REGISTER', 'UNDO'}
 	
 	items = [
-		('Basic', "基本", "", 'MOD_CURVE', 1),
+		('Tapered', "先細り", "", 'MOD_CURVE', 1),
 		('Sphere', "円", "", 'SPHERECURVE', 2),
+		('Reversed', "先太り", "", 'PMARKER', 3),
 		]
-	taper_type = bpy.props.EnumProperty(items=items, name="テーパー", default='Basic')
+	taper_type = bpy.props.EnumProperty(items=items, name="テーパー", default='Tapered')
 	
 	items = [
-		('Sphere', "円", "", 'SURFACE_NCIRCLE', 1),
-		('Sharp', "シャープ", "", 'LINCURVE', 2),
-		('V', "切り込み", "", 'FILE_TICK', 3),
-		('Corrugated', "ギザギザ", "", 'RNDCURVE', 4),
+		('Sphere', "円", "", 'SURFACE_NCIRCLE'),
+		('2', "2本", "", 'OUTLINER_OB_META'),
+		('3', "3本", "", 'COLLAPSEMENU'),
+		('Square', "四角", "", 'MESH_PLANE'),
+		('SquareLoose', "ゆるやか四角", "", 'SNAP_VOLUME'),
+		('Diamond', "ひし形", "", 'SPACE3'),
+		('DiamondLoose', "ゆるやかひし形", "", 'SPACE2'),
+		('Sharp', "シャープ", "", 'LINCURVE'),
+		('Leaf', "葉っぱ", "", 'MAN_ROT'),
+		('V', "切り込み", "", 'FILE_TICK'),
+		('Tilde', "～", "", 'IPO_EASE_IN_OUT'),
+		('Corrugated', "ギザギザ", "", 'RNDCURVE'),
 		]
+	for i, item in enumerate(items): items[i] = tuple(list(item) + [i + 1])
 	bevel_type = bpy.props.EnumProperty(items=items, name="ベベル", default='Sphere')
 	
 	scale = bpy.props.FloatProperty(name="サイズ", default=0.2, min=0, max=10, soft_min=0, soft_max=10, step=3, precision=2)
@@ -63,7 +73,7 @@ class ahs_maincurve_fleshout(bpy.types.Operator):
 			
 			# テーパーオブジェクトをアペンドして割り当て
 			with context.blend_data.libraries.load(blend_path) as (data_from, data_to):
-				data_to.objects = ["Taper_" + self.taper_type]
+				data_to.objects = ["Taper." + self.taper_type]
 			taper_curve_ob = data_to.objects[0]
 			taper_curve = taper_curve_ob.data
 			name = ob.name + ":Taper"
@@ -73,7 +83,7 @@ class ahs_maincurve_fleshout(bpy.types.Operator):
 			
 			# ベベルオブジェクトをアペンドして割り当て
 			with context.blend_data.libraries.load(blend_path) as (data_from, data_to):
-				data_to.objects = ["Bevel_" + self.bevel_type]
+				data_to.objects = ["Bevel." + self.bevel_type]
 			bevel_curve_ob = data_to.objects[0]
 			bevel_curve = bevel_curve_ob.data
 			name = ob.name + ":Bevel"
@@ -82,9 +92,16 @@ class ahs_maincurve_fleshout(bpy.types.Operator):
 			curve.bevel_object = bevel_curve_ob
 			
 			# 位置変更
-			if not len(curve.splines): continue
-			end_co = ob.matrix_world * mathutils.Vector(curve.splines[0].points[-1].co[:3])
-			taper_curve_ob.location, bevel_curve_ob.location = end_co.copy(), end_co.copy()
+			if len(curve.splines):
+				end_co = ob.matrix_world * mathutils.Vector(curve.splines[0].points[-1].co[:3])
+				taper_curve_ob.location, bevel_curve_ob.location = end_co.copy(), end_co.copy()
+			
+			# 回転変更
+			if len(curve.splines):
+				diff_co = ob.matrix_world * mathutils.Vector(curve.splines[0].points[-1].co[:3]) - ob.matrix_world * mathutils.Vector(curve.splines[0].points[0].co[:3])
+				rotation_z = math.atan2(diff_co.y, diff_co.x)
+				taper_curve_ob.rotation_mode, bevel_curve_ob.rotation_mode = 'XYZ', 'XYZ'
+				taper_curve_ob.rotation_euler.z, bevel_curve_ob.rotation_euler.z = rotation_z, rotation_z - math.radians(90)
 			
 			# 拡縮変更
 			taper_curve_ob.scale = (self.scale, self.scale, self.scale)

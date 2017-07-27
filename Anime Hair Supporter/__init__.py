@@ -6,7 +6,7 @@ bl_info = {
 	'author' : "saidenka",
 	'version' : (1, 0),
 	'blender' : (2, 7, 8),
-	'location' : "3Dビュー > オブジェクトモード > ",
+	'location' : "3Dビュー > オブジェクトモード > ツールシェルフ > ツール > アニメ髪支援パネル",
 	'description' : "",
 	'warning' : "",
 	'wiki_url' : "",

@@ -1,4 +1,4 @@
-import bpy
+import bpy, mathutils
 
 class ahs_tapercurve_activate_main(bpy.types.Operator):
 	bl_idname = 'object.ahs_tapercurve_activate_main'
@@ -23,8 +23,20 @@ class ahs_tapercurve_activate_main(bpy.types.Operator):
 			if o.data.bevel_object == ob: parent_objects.append(o)
 		
 		for o in context.blend_data.objects: o.select = False
+		
+		def get_center(ob):
+			total_co = mathutils.Vector()
+			for seq in ob.bound_box:
+				total_co += ob.matrix_world * mathutils.Vector((seq[0], seq[1], seq[2]))
+			return total_co / 8
+		
+		nearest_length = 9**9
 		for target_ob in parent_objects:
 			target_ob.select, target_ob.hide = True, False
-			context.scene.objects.active = target_ob
+			
+			length = (ob.location - get_center(target_ob)).length
+			if length < nearest_length:
+				nearest_length = length
+				context.scene.objects.active = target_ob
 		
 		return {'FINISHED'}

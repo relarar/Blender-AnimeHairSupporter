@@ -58,11 +58,11 @@ class VIEW3D_PT_tools_anime_hair_supporter(bpy.types.Panel):
 		# サブツール
 		column = box.column(align=True)
 		row = column.row(align=True)
-		row.operator('object.ahs_tapercurve_select', icon='RESTRICT_SELECT_OFF').is_bevel = False
+		row.operator('object.ahs_tapercurve_select', icon='RESTRICT_SELECT_OFF').mode = 'TAPER'
 		op = row.operator('object.ahs_tapercurve_hide', text="表示", icon='VISIBLE_IPO_ON')
-		op.is_bevel, op.is_hide = False, False
+		op.mode, op.is_hide = 'TAPER', False
 		op = row.operator('object.ahs_tapercurve_hide', text="隠す", icon='VISIBLE_IPO_OFF')
-		op.is_bevel, op.is_hide = False, True
+		op.mode, op.is_hide = 'TAPER', True
 		
 		# 解像度
 		try:
@@ -91,11 +91,11 @@ class VIEW3D_PT_tools_anime_hair_supporter(bpy.types.Panel):
 		# サブツール
 		column = box.column(align=True)
 		row = column.row(align=True)
-		row.operator('object.ahs_tapercurve_select', icon='RESTRICT_SELECT_OFF').is_bevel = True
+		row.operator('object.ahs_tapercurve_select', icon='RESTRICT_SELECT_OFF').mode = 'BEVEL'
 		op = row.operator('object.ahs_tapercurve_hide', text="表示", icon='VISIBLE_IPO_ON')
-		op.is_bevel, op.is_hide = True, False
+		op.mode, op.is_hide = 'BEVEL', False
 		op = row.operator('object.ahs_tapercurve_hide', text="隠す", icon='VISIBLE_IPO_OFF')
-		op.is_bevel, op.is_hide = True, True
+		op.mode, op.is_hide = 'BEVEL', True
 		
 		# 解像度
 		try:

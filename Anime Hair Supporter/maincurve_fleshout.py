@@ -33,8 +33,8 @@ class ahs_maincurve_fleshout(bpy.types.Operator):
 	bevel_type = bpy.props.EnumProperty(items=items, name="ベベル", default='Sharp')
 	is_bevel_mirror = bpy.props.BoolProperty(name="ベベルを左右反転", default=False)
 	
-	scale = bpy.props.FloatProperty(name="サイズ", default=0.2, min=0, max=10, soft_min=0, soft_max=10, step=3, precision=2)
-	scale_y = bpy.props.FloatProperty(name="平たさ", default=0.5, min=0, max=1, soft_min=0, soft_max=1, step=3, precision=2)
+	scale = bpy.props.FloatProperty(name="半径", default=0.2, min=0, max=10, soft_min=0, soft_max=10, step=3, precision=2)
+	scale_y_multi = bpy.props.IntProperty(name="平たさ", default=50, min=0, max=100, soft_min=0, soft_max=100, subtype='PERCENTAGE')
 	
 	@classmethod
 	def poll(cls, context):
@@ -53,7 +53,7 @@ class ahs_maincurve_fleshout(bpy.types.Operator):
 		row.prop(self, 'is_bevel_mirror', text="", icon='ARROW_LEFTRIGHT')
 		
 		self.layout.prop(self, 'scale')
-		self.layout.prop(self, 'scale_y', slider=True)
+		self.layout.prop(self, 'scale_y_multi', slider=True)
 	
 	def execute(self, context):
 		# すでにテーパーかベベルとして指定されているオブジェクトをリスト
@@ -127,6 +127,6 @@ class ahs_maincurve_fleshout(bpy.types.Operator):
 			
 			# 拡縮変更
 			taper_curve_ob.scale = (self.scale, self.scale, self.scale)
-			bevel_curve_ob.scale = (self.scale, self.scale * self.scale_y, self.scale)
+			bevel_curve_ob.scale = (self.scale, self.scale * self.scale_y_multi * 0.01, self.scale)
 		
 		return {'FINISHED'}

@@ -5,7 +5,12 @@ class ahs_tapercurve_select(bpy.types.Operator):
 	bl_label = "選択"
 	bl_options = {'REGISTER', 'UNDO'}
 	
-	is_bevel = bpy.props.BoolProperty(name="ベベル")
+	items = [
+		('TAPER', "テーパー", "", 'CURVE_NCURVE', 1),
+		('BEVEL', "ベベル", "", 'SURFACE_NCIRCLE', 2),
+		('BOTH', "両方", "", 'ARROW_LEFTRIGHT', 3),
+		]
+	mode = bpy.props.EnumProperty(items=items, name="モード", default='BOTH')
 	
 	@classmethod
 	def poll(cls, context):
@@ -18,8 +23,9 @@ class ahs_tapercurve_select(bpy.types.Operator):
 		return True
 	
 	def execute(self, context):
-		if not self.is_bevel: taper_or_bevel_objects = [c.taper_object for c in context.blend_data.curves if c.taper_object]
-		else: taper_or_bevel_objects = [c.bevel_object for c in context.blend_data.curves if c.bevel_object]
+		if self.mode == 'TAPER': taper_or_bevel_objects = [c.taper_object for c in context.blend_data.curves if c.taper_object]
+		elif self.mode == 'BEVEL': taper_or_bevel_objects = [c.bevel_object for c in context.blend_data.curves if c.bevel_object]
+		else: taper_or_bevel_objects = [c.taper_object for c in context.blend_data.curves if c.taper_object] + [c.bevel_object for c in context.blend_data.curves if c.bevel_object]
 		
 		target_objects = []
 		for ob in context.visible_objects:

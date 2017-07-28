@@ -6,10 +6,13 @@ class ahs_maincurve_fleshout(bpy.types.Operator):
 	bl_options = {'REGISTER', 'UNDO'}
 	
 	items = [
-		('Tapered', "先細り", "", 'MOD_CURVE', 1),
-		('Sphere', "円", "", 'SPHERECURVE', 2),
-		('Reversed', "先太り", "", 'PMARKER', 3),
+		('Tapered', "先細り", "", 'CURVE_DATA'),
+		('TaperedSuper', "より先細り", "", 'MOD_CURVE'),
+		('Sphere', "円", "", 'SPHERECURVE'),
+		('Reversed', "先太り", "", 'PMARKER'),
+		('ReversedSuper', "より先太り", "", 'CURVE_BEZCURVE'),
 		]
+	for i, item in enumerate(items): items[i] = tuple(list(item) + [i + 1])
 	taper_type = bpy.props.EnumProperty(items=items, name="テーパー", default='Tapered')
 	
 	items = [
@@ -19,7 +22,7 @@ class ahs_maincurve_fleshout(bpy.types.Operator):
 		('Triangle', "三角", "", 'EDITMODE_VEC_HLT'),
 		('TriangleLoose', "ゆるやか三角", "", 'PLAY_REVERSE'),
 		('Square', "四角", "", 'MESH_PLANE'),
-		('SquareLoose', "ゆるやか四角", "", 'SNAP_VOLUME'),
+		('SquareLoose', "ゆるやか四角", "", 'LATTICE_DATA'),
 		('Diamond', "ひし形", "", 'SPACE3'),
 		('DiamondLoose', "ゆるやかひし形", "", 'KEYTYPE_EXTREME_VEC'),
 		('Sharp', "シャープ", "", 'LINCURVE'),
@@ -50,7 +53,7 @@ class ahs_maincurve_fleshout(bpy.types.Operator):
 		
 		row = self.layout.row(align=True)
 		row.prop(self, 'bevel_type')
-		row.prop(self, 'is_bevel_mirror', text="", icon='ARROW_LEFTRIGHT')
+		row.prop(self, 'is_bevel_mirror', text="", icon='MOD_MIRROR')
 		
 		self.layout.prop(self, 'scale')
 		self.layout.prop(self, 'scale_y_multi', slider=True)
@@ -86,6 +89,7 @@ class ahs_maincurve_fleshout(bpy.types.Operator):
 			taper_curve = taper_curve_ob.data
 			name = ob.name + ":Taper"
 			taper_curve_ob.name, taper_curve.name = name, name
+			taper_curve_ob.select = False
 			context.scene.objects.link(taper_curve_ob)
 			curve.taper_object = taper_curve_ob
 			
@@ -96,6 +100,7 @@ class ahs_maincurve_fleshout(bpy.types.Operator):
 			bevel_curve = bevel_curve_ob.data
 			name = ob.name + ":Bevel"
 			bevel_curve_ob.name, bevel_curve.name = name, name
+			bevel_curve_ob.select = False
 			context.scene.objects.link(bevel_curve_ob)
 			curve.bevel_object = bevel_curve_ob
 			# 左右反転処理

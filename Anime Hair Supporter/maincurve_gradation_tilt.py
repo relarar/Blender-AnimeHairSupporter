@@ -12,10 +12,10 @@ class ahs_maincurve_gradation_tilt(bpy.types.Operator):
 	end_tilt = bpy.props.FloatProperty(name="終点のひねり", default=0, min=math.radians(-360), max=math.radians(360), soft_min=math.radians(-360), soft_max=math.radians(360), step=3, precision=0, subtype='ANGLE', unit='ROTATION')
 	
 	items = [
-		('ADD', "追加", "", 'ZOOMIN', 1),
-		('REPLACE', "置換", "", 'COPYDOWN', 2),
+		('ABSOLUTE', "絶対", "", 'PREFERENCES', 1),
+		('RELATIVE', "相対", "", 'ZOOMIN', 2),
 		]
-	mode = bpy.props.EnumProperty(items=items, name="モード", default='ADD')
+	mode = bpy.props.EnumProperty(items=items, name="モード", default='ABSOLUTE')
 	
 	@classmethod
 	def poll(cls, context):
@@ -72,7 +72,7 @@ class ahs_maincurve_gradation_tilt(bpy.types.Operator):
 					tilt_ratio = (current_length_ratio - begin_ratio) / (end_ratio - begin_ratio)
 					current_tilt = (self.begin_tilt * (1 - tilt_ratio)) + (self.end_tilt * (tilt_ratio))
 				
-				if   self.mode == 'ADD': point.tilt += current_tilt
-				elif self.mode == 'REPLACE': point.tilt = current_tilt
+				if   self.mode == 'ABSOLUTE': point.tilt = current_tilt
+				elif self.mode == 'RELATIVE': point.tilt += current_tilt
 		
 		return {'FINISHED'}

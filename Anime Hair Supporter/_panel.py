@@ -26,7 +26,7 @@ class VIEW3D_PT_tools_anime_hair_supporter(bpy.types.Panel):
 		
 		column = box.column(align=True)
 		# 余剰変形
-		column.operator('object.ahs_maincurve_surplus_transform', icon='PARTICLE_PATH')
+		column.operator('object.ahs_maincurve_extra_deform', icon='PARTICLE_PATH')
 		# グラデーションひねり
 		column.operator('object.ahs_maincurve_gradation_tilt', icon='FORCE_MAGNETIC')
 		
@@ -38,7 +38,7 @@ class VIEW3D_PT_tools_anime_hair_supporter(bpy.types.Panel):
 		row.operator('object.ahs_maincurve_hide', text="隠す", icon='VISIBLE_IPO_OFF').is_hide = True
 		
 		# 解像度
-		row = column.row(align=True)
+		row = column.split(percentage=0.59, align=True)
 		try: is_successed = context.active_object.data.taper_object and context.active_object.data.bevel_object and context.active_object.data.splines.active
 		except: is_successed = False
 		if is_successed: row.prop(context.active_object.data.splines.active, 'resolution_u', text="解像度")
@@ -46,7 +46,7 @@ class VIEW3D_PT_tools_anime_hair_supporter(bpy.types.Panel):
 		# 次数
 		try: is_successed = context.active_object.data.taper_object and context.active_object.data.bevel_object and context.active_object.data.splines.active
 		except: is_successed = False
-		if is_successed: row.prop(context.active_object.data.splines.active, 'order_u', text="次数")
+		if is_successed: row.prop(context.active_object.data.splines.active, 'order_u', text="次数", slider=True)
 		else: row.label(text="次数:")
 		
 		# アクティブ化
@@ -61,11 +61,11 @@ class VIEW3D_PT_tools_anime_hair_supporter(bpy.types.Panel):
 		box.label("テーパーカーブ", icon='CURVE_NCURVE')
 		
 		# 位置を再設定とか
-		row = box.row(align=False)
+		row = box.split(percentage=0.6, align=False)
 		row_sub = row.row(align=True)
 		row_sub.operator('object.ahs_tapercurve_move', icon='PARTICLE_TIP').mode = 'TAPER'
 		row_sub.operator('object.ahs_tapercurve_move', text="", icon='OUTLINER_DATA_ARMATURE').mode = 'BOTH'
-		op = row.operator('object.ahs_tapercurve_mirror', text="", icon='MOD_MIRROR')
+		op = row.operator('object.ahs_tapercurve_mirror', icon='MOD_MIRROR')
 		op.mode, op.is_mirror_x, op.is_mirror_y = 'TAPER', False, True
 		
 		# サブツール
@@ -101,11 +101,11 @@ class VIEW3D_PT_tools_anime_hair_supporter(bpy.types.Panel):
 		box.label("ベベルカーブ", icon='SURFACE_NCIRCLE')
 		
 		# 位置を再設定とか
-		row = box.row(align=False)
+		row = box.split(percentage=0.6, align=False)
 		row_sub = row.row(align=True)
 		row_sub.operator('object.ahs_tapercurve_move', icon='PARTICLE_TIP').mode = 'BEVEL'
 		row_sub.operator('object.ahs_tapercurve_move', text="", icon='OUTLINER_DATA_ARMATURE').mode = 'BOTH'
-		op = row.operator('object.ahs_tapercurve_mirror', text="", icon='MOD_MIRROR')
+		op = row.operator('object.ahs_tapercurve_mirror', icon='MOD_MIRROR')
 		op.mode, op.is_mirror_x, op.is_mirror_y = 'BEVEL', True, False
 		
 		# サブツール

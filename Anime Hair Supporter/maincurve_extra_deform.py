@@ -1,11 +1,12 @@
 import bpy, mathutils
 
-class ahs_maincurve_surplus_transform(bpy.types.Operator):
-	bl_idname = 'object.ahs_maincurve_surplus_transform'
+class ahs_maincurve_extra_deform(bpy.types.Operator):
+	bl_idname = 'object.ahs_maincurve_extra_deform'
 	bl_label = "余剰変形"
 	bl_options = {'REGISTER', 'UNDO'}
 	
-	surplus_transform_multi = bpy.props.FloatProperty(name="余剰変形", default=0.5, min=-1, max=2, soft_min=-1, soft_max=2, step=3, precision=2)
+	order_u = bpy.props.IntProperty(name="次数", default=3, min=3, max=6, soft_min=3, soft_max=6)
+	extra_deform_multi = bpy.props.IntProperty(name="余剰変形率", default=50, min=-100, max=200, soft_min=-100, soft_max=200, subtype='PERCENTAGE')
 	
 	@classmethod
 	def poll(cls, context):
@@ -18,7 +19,8 @@ class ahs_maincurve_surplus_transform(bpy.types.Operator):
 		return True
 	
 	def draw(self, context):
-		self.layout.prop(self, 'surplus_transform_multi', slider=True)
+		self.layout.prop(self, 'order_u', slider=True)
+		self.layout.prop(self, 'extra_deform_multi', slider=True)
 	
 	def execute(self, context):
 		for ob in context.selected_objects:
@@ -28,6 +30,7 @@ class ahs_maincurve_surplus_transform(bpy.types.Operator):
 			if not curve.splines.active: continue
 			
 			for spline in curve.splines:
+				spline.order_u = self.order_u
 				if len(spline.points) < 3: continue
 				for index, point in enumerate(spline.points):
 					if index == 0 or len(spline.points) - 1 == index: continue
@@ -36,7 +39,7 @@ class ahs_maincurve_surplus_transform(bpy.types.Operator):
 					prev_line = co - mathutils.Vector(spline.points[index - 1].co[:3])
 					next_line = co - mathutils.Vector(spline.points[index + 1].co[:3])
 					
-					plus_co = prev_line.lerp(next_line, 0.5) * self.surplus_transform_multi
+					plus_co = prev_line.lerp(next_line, 0.5) * (self.extra_deform_multi * 0.01)
 					point.co = list(co + plus_co) + [point.co.w]
 		
 		return {'FINISHED'}

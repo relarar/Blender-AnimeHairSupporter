@@ -6,16 +6,16 @@ class ahs_meshedge_to_curve(bpy.types.Operator):
 	bl_options = {'REGISTER', 'UNDO'}
 	
 	order_u = bpy.props.IntProperty(name="次数", default=3, min=3, max=6, soft_min=3, soft_max=6)
-	surplus_transform_multi = bpy.props.FloatProperty(name="余剰変形", default=0.5, min=-1, max=2, soft_min=-1, soft_max=2, step=3, precision=2)
-	is_remove_mesh = bpy.props.BoolProperty(name="辺メッシュを削除", default=True)
+	extra_deform_multi = bpy.props.IntProperty(name="余剰変形率", default=50, min=-100, max=200, soft_min=-100, soft_max=200, subtype='PERCENTAGE')
+	is_remove_mesh = bpy.props.BoolProperty(name="元にした辺メッシュを削除", default=True)
 	
 	@classmethod
 	def poll(cls, context):
  		return True
 	
 	def draw(self, context):
-		self.layout.prop(self, 'order_u')
-		self.layout.prop(self, 'surplus_transform_multi', slider=True)
+		self.layout.prop(self, 'order_u', slider=True)
+		self.layout.prop(self, 'extra_deform_multi', slider=True)
 		self.layout.prop(self, 'is_remove_mesh', icon='X', toggle=True)
 	
 	def execute(self, context):
@@ -95,7 +95,7 @@ class ahs_meshedge_to_curve(bpy.types.Operator):
 					if index != 0 and len(local_points) - 1 != index:
 						prev_line = co - local_points[index - 1]
 						next_line = co - local_points[index + 1]
-						co += prev_line.lerp(next_line, 0.5) * self.surplus_transform_multi
+						co += prev_line.lerp(next_line, 0.5) * (self.extra_deform_multi * 0.01)
 					point.co = list(curve_ob.matrix_world.inverted() * co) + [1.0]
 				
 				# スプラインの設定

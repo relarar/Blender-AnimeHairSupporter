@@ -14,6 +14,7 @@ class VIEW3D_PT_tools_anime_hair_supporter(bpy.types.Panel):
 		row.enabled = len([o for o in context.selected_objects if o.type == 'MESH'])
 		
 		
+		
 		# メインカーブ
 		box = self.layout.box()
 		box.label("メインカーブ", icon='MAN_ROT')
@@ -23,11 +24,11 @@ class VIEW3D_PT_tools_anime_hair_supporter(bpy.types.Panel):
 		row.operator('object.ahs_maincurve_fleshout', icon='MESH_CAPSULE')
 		row.operator('object.ahs_maincurve_fleshlose', text="", icon='X')
 		
+		column = box.column(align=True)
 		# 余剰変形
-		box.operator('object.ahs_maincurve_surplus_transform', icon='CURVE_NCURVE')
-		
+		column.operator('object.ahs_maincurve_surplus_transform', icon='PARTICLE_PATH')
 		# グラデーションひねり
-		box.operator('object.ahs_maincurve_gradation_tilt', icon='FORCE_MAGNETIC')
+		column.operator('object.ahs_maincurve_gradation_tilt', icon='FORCE_MAGNETIC')
 		
 		# サブツール
 		column = box.column(align=True)
@@ -47,6 +48,12 @@ class VIEW3D_PT_tools_anime_hair_supporter(bpy.types.Panel):
 		except: is_successed = False
 		if is_successed: row.prop(context.active_object.data.splines.active, 'order_u', text="次数")
 		else: row.label(text="次数:")
+		
+		# アクティブ化
+		row = box.row(align=True)
+		row.operator('object.ahs_maincurve_activate_taper', text="テーパーへ", icon='ZOOM_SELECTED').mode = 'TAPER'
+		row.operator('object.ahs_maincurve_activate_taper', text="ベベルへ", icon='ZOOM_SELECTED').mode = 'BEVEL'
+		
 		
 		
 		# テーパーカーブ
@@ -84,6 +91,10 @@ class VIEW3D_PT_tools_anime_hair_supporter(bpy.types.Panel):
 			except: is_successed = False
 		if not is_successed: column.label(text="解像度:")
 		
+		# アクティブ化
+		box.operator('object.ahs_tapercurve_activate_main', icon='ZOOM_SELECTED')
+		
+		
 		
 		# ベベルカーブ
 		box = self.layout.box()
@@ -119,6 +130,10 @@ class VIEW3D_PT_tools_anime_hair_supporter(bpy.types.Panel):
 					is_successed = True
 			except: is_successed = False
 		if not is_successed: column.label(text="解像度:")
+		
+		# アクティブ化
+		box.operator('object.ahs_tapercurve_activate_main', icon='ZOOM_SELECTED')
+		
 		
 		
 		row = self.layout.row(align=True)

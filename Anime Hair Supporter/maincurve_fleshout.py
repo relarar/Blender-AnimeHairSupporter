@@ -31,6 +31,7 @@ class ahs_maincurve_fleshout(bpy.types.Operator):
 		]
 	for i, item in enumerate(items): items[i] = tuple(list(item) + [i + 1])
 	bevel_type = bpy.props.EnumProperty(items=items, name="ベベル", default='Sharp')
+	is_bevel_mirror = bpy.props.BoolProperty(name="ベベルを左右反転", default=False)
 	
 	scale = bpy.props.FloatProperty(name="サイズ", default=0.2, min=0, max=10, soft_min=0, soft_max=10, step=3, precision=2)
 	scale_y = bpy.props.FloatProperty(name="平たさ", default=0.5, min=0, max=1, soft_min=0, soft_max=1, step=3, precision=2)
@@ -46,7 +47,11 @@ class ahs_maincurve_fleshout(bpy.types.Operator):
 	
 	def draw(self, context):
 		self.layout.prop(self, 'taper_type')
-		self.layout.prop(self, 'bevel_type')
+		
+		row = self.layout.row(align=True)
+		row.prop(self, 'bevel_type')
+		row.prop(self, 'is_bevel_mirror', text="", icon='ARROW_LEFTRIGHT')
+		
 		self.layout.prop(self, 'scale')
 		self.layout.prop(self, 'scale_y', slider=True)
 	
@@ -93,6 +98,13 @@ class ahs_maincurve_fleshout(bpy.types.Operator):
 			bevel_curve_ob.name, bevel_curve.name = name, name
 			context.scene.objects.link(bevel_curve_ob)
 			curve.bevel_object = bevel_curve_ob
+			# 左右反転処理
+			if self.is_bevel_mirror:
+				co_list = [list(p.co) for p in bevel_curve.splines[0].points]
+				co_list.reverse()
+				for point, new_co in zip(bevel_curve.splines[0].points, co_list):
+					new_co[0] = -new_co[0]
+					point.co = new_co
 			
 			# 位置変更
 			if len(curve.splines):

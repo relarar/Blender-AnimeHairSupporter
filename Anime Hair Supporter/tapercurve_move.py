@@ -2,7 +2,7 @@ import bpy, mathutils, math
 
 class ahs_tapercurve_move(bpy.types.Operator):
 	bl_idname = 'object.ahs_tapercurve_move'
-	bl_label = "位置を再設定"
+	bl_label = "再配置"
 	bl_options = {'REGISTER', 'UNDO'}
 	
 	items = [

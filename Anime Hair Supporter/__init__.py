@@ -27,9 +27,10 @@ if 'bpy' in locals():
 	imp.reload(maincurve_select)
 	imp.reload(maincurve_hide)
 	
+	imp.reload(tapercurve_move)
+	imp.reload(tapercurve_mirror)
 	imp.reload(tapercurve_select)
 	imp.reload(tapercurve_hide)
-	imp.reload(tapercurve_move)
 else:
 	from . import _panel
 	
@@ -41,9 +42,10 @@ else:
 	from . import maincurve_select
 	from . import maincurve_hide
 	
+	from . import tapercurve_move
+	from . import tapercurve_mirror
 	from . import tapercurve_select
 	from . import tapercurve_hide
-	from . import tapercurve_move
 
 # この位置に記述 (重要)
 import bpy

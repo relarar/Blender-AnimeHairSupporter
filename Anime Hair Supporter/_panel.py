@@ -9,9 +9,13 @@ class VIEW3D_PT_tools_anime_hair_supporter(bpy.types.Panel):
 	bl_options = {'DEFAULT_CLOSED'}
 	
 	def draw(self, context):
-		row = self.layout.row(align=True)
-		row.operator('object.ahs_meshedge_to_curve', icon='CURVE_NCURVE')
-		row.enabled = len([o for o in context.selected_objects if o.type == 'MESH'])
+		column = self.layout.column(align=True)
+		row = column.row(align=True)
+		row.operator('object.ahs_convert_mesh_to_curve', icon='CURVE_NCURVE')
+		row.enabled = bool( len([o for o in context.selected_objects if o.type == 'MESH']) )
+		row = column.row(align=True)
+		row.operator('object.ahs_convert_curve_to_mesh', icon='FILE_PARENT')
+		row.enabled = bool( len([o for o in context.selected_objects if o.type == 'CURVE']) )
 		
 		
 		

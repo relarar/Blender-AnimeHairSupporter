@@ -19,7 +19,8 @@ if 'bpy' in locals():
 	import imp
 	imp.reload(_panel)
 	
-	imp.reload(meshedge_to_curve)
+	imp.reload(convert_mesh_to_curve)
+	imp.reload(convert_curve_to_mesh)
 	
 	imp.reload(maincurve_fleshout)
 	imp.reload(maincurve_fleshlose)
@@ -37,7 +38,8 @@ if 'bpy' in locals():
 else:
 	from . import _panel
 	
-	from . import meshedge_to_curve
+	from . import convert_mesh_to_curve
+	from . import convert_curve_to_mesh
 	
 	from . import maincurve_fleshout
 	from . import maincurve_fleshlose

@@ -7,23 +7,22 @@ class ahs_meshedge_to_curve(bpy.types.Operator):
 	
 	order_u = bpy.props.IntProperty(name="次数", default=3, min=3, max=6, soft_min=3, soft_max=6)
 	surplus_transform_multi = bpy.props.FloatProperty(name="余剰変形", default=0.5, min=-1, max=2, soft_min=-1, soft_max=2, step=3, precision=2)
+	is_remove_mesh = bpy.props.BoolProperty(name="辺メッシュを削除", default=True)
 	
 	@classmethod
 	def poll(cls, context):
-		try:
-			for ob in context.selected_objects:
-				if ob.type == 'MESH': break
-			else: return False
+ 		try: pass
 		except: return False
 		return True
 	
 	def draw(self, context):
 		self.layout.prop(self, 'order_u')
 		self.layout.prop(self, 'surplus_transform_multi', slider=True)
+		self.layout.prop(self, 'is_remove_mesh', icon='X', toggle=True)
 	
 	def execute(self, context):
 		new_objects = []
-		for ob in context.selected_objects:
+		for ob in context.selected_objects[:]:
 			if ob.type != 'MESH': continue
 			if len(ob.data.vertices) < 2 or len(ob.data.edges) < 1 or len(ob.data.polygons): continue
 			
@@ -107,10 +106,14 @@ class ahs_meshedge_to_curve(bpy.types.Operator):
 			
 			bm.free()
 			
-			#context.scene.objects.unlink(ob)
+			if self.is_remove_mesh:
+				context.blend_data.meshes.remove(ob.data, do_unlink=True)
+				context.blend_data.objects.remove(ob, do_unlink=True)
+			else:
+				ob.select = False
 		
 		# 新規オブジェクトをアクティブ＆選択
-		#if len(new_objects): context.scene.objects.active = new_objects[0]
-		#for new_object in new_objects: new_object.select = True
+		if len(new_objects): context.scene.objects.active = new_objects[0]
+		for new_object in new_objects: new_object.select = True
 		
 		return {'FINISHED'}

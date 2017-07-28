@@ -9,7 +9,9 @@ class VIEW3D_PT_tools_anime_hair_supporter(bpy.types.Panel):
 	bl_options = {'DEFAULT_CLOSED'}
 	
 	def draw(self, context):
-		self.layout.operator('object.ahs_meshedge_to_curve', icon='CURVE_NCURVE')
+		row = self.layout.row(align=True)
+		row.operator('object.ahs_meshedge_to_curve', icon='CURVE_NCURVE')
+		row.enabled = len([o for o in context.selected_objects if o.type == 'MESH'])
 		
 		
 		# メインカーブ
@@ -51,7 +53,7 @@ class VIEW3D_PT_tools_anime_hair_supporter(bpy.types.Panel):
 		# 位置を再設定
 		row = box.row(align=True)
 		row.operator('object.ahs_tapercurve_move', icon='PARTICLE_TIP').mode = 'TAPER'
-		row.operator('object.ahs_tapercurve_move', text="", icon='ARROW_LEFTRIGHT').mode = 'BOTH'
+		row.operator('object.ahs_tapercurve_move', text="", icon='OUTLINER_DATA_ARMATURE').mode = 'BOTH'
 		
 		# サブツール
 		column = box.column(align=True)
@@ -84,7 +86,7 @@ class VIEW3D_PT_tools_anime_hair_supporter(bpy.types.Panel):
 		# 位置を再設定
 		row = box.row(align=True)
 		row.operator('object.ahs_tapercurve_move', icon='PARTICLE_TIP').mode = 'BEVEL'
-		row.operator('object.ahs_tapercurve_move', text="", icon='ARROW_LEFTRIGHT').mode = 'BOTH'
+		row.operator('object.ahs_tapercurve_move', text="", icon='OUTLINER_DATA_ARMATURE').mode = 'BOTH'
 		
 		# サブツール
 		column = box.column(align=True)

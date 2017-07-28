@@ -11,9 +11,7 @@ class ahs_meshedge_to_curve(bpy.types.Operator):
 	
 	@classmethod
 	def poll(cls, context):
- 		try: pass
-		except: return False
-		return True
+ 		return True
 	
 	def draw(self, context):
 		self.layout.prop(self, 'order_u')

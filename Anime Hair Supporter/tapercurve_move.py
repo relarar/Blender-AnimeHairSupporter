@@ -63,10 +63,15 @@ class ahs_tapercurve_move(bpy.types.Operator):
 			
 			# 回転変更
 			if self.is_rotation:
+				# 最後の辺をトラック
+				ob.rotation_mode = 'QUATERNION'
+				last_direction = parent_ob.matrix_world * mathutils.Vector(parent_ob.data.splines[0].points[-2].co[:3]) - parent_ob.matrix_world * mathutils.Vector(parent_ob.data.splines[0].points[-1].co[:3])
+				up_direction = mathutils.Vector((0, 0, 1))
+				ob.rotation_quaternion = up_direction.rotation_difference(last_direction)
+				# Z回転
 				diff_co = parent_ob.matrix_world * mathutils.Vector(parent_ob.data.splines[0].points[-1].co[:3]) - parent_ob.matrix_world * mathutils.Vector(parent_ob.data.splines[0].points[0].co[:3])
-				rotation_z = math.atan2(diff_co.y, diff_co.x)
-				ob.rotation_mode = 'XYZ'
-				if parent_ob.data.taper_object == ob: ob.rotation_euler.z = rotation_z
-				elif parent_ob.data.bevel_object == ob: ob.rotation_euler.z = rotation_z - math.radians(90)
+				rotation_z = math.atan2(diff_co.y, diff_co.x) - parent_ob.data.splines[0].points[-1].tilt
+				if parent_ob.data.taper_object == ob: ob.rotation_quaternion *= mathutils.Quaternion((0, 0, 1), rotation_z)
+				elif parent_ob.data.bevel_object == ob: ob.rotation_quaternion *= mathutils.Quaternion((0, 0, 1), rotation_z - math.radians(90))
 		
 		return {'FINISHED'}

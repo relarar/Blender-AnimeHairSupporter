@@ -24,6 +24,7 @@ if 'bpy' in locals():
 	imp.reload(maincurve_fleshout)
 	imp.reload(maincurve_fleshlose)
 	imp.reload(maincurve_surplus_transform)
+	imp.reload(maincurve_gradation_tilt)
 	imp.reload(maincurve_select)
 	imp.reload(maincurve_hide)
 	
@@ -39,6 +40,7 @@ else:
 	from . import maincurve_fleshout
 	from . import maincurve_fleshlose
 	from . import maincurve_surplus_transform
+	from . import maincurve_gradation_tilt
 	from . import maincurve_select
 	from . import maincurve_hide
 	

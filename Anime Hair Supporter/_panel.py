@@ -26,6 +26,9 @@ class VIEW3D_PT_tools_anime_hair_supporter(bpy.types.Panel):
 		# 余剰変形
 		box.operator('object.ahs_maincurve_surplus_transform', icon='CURVE_NCURVE')
 		
+		# グラデーションひねり
+		box.operator('object.ahs_maincurve_gradation_tilt', icon='FORCE_MAGNETIC')
+		
 		# サブツール
 		column = box.column(align=True)
 		row = column.row(align=True)

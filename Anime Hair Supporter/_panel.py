@@ -62,7 +62,9 @@ class VIEW3D_PT_tools_anime_hair_supporter(bpy.types.Panel):
 		
 		# テーパーカーブ
 		box = self.layout.box()
-		box.label("テーパーカーブ", icon='CURVE_NCURVE')
+		row = box.row(align=False)
+		row.label("テーパーカーブ", icon='CURVE_NCURVE')
+		row.operator('object.ahs_tapercurve_id_singlize', text="", icon='COPY_ID')
 		
 		# 位置を再設定とか
 		row = box.split(percentage=0.6, align=False)
@@ -102,7 +104,9 @@ class VIEW3D_PT_tools_anime_hair_supporter(bpy.types.Panel):
 		
 		# ベベルカーブ
 		box = self.layout.box()
-		box.label("ベベルカーブ", icon='SURFACE_NCIRCLE')
+		row = box.row(align=False)
+		row.label("ベベルカーブ", icon='SURFACE_NCIRCLE')
+		row.operator('object.ahs_tapercurve_id_singlize', text="", icon='COPY_ID')
 		
 		# 位置を再設定とか
 		row = box.split(percentage=0.6, align=False)

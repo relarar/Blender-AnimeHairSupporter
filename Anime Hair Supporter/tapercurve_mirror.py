@@ -62,17 +62,18 @@ class ahs_tapercurve_mirror(bpy.types.Operator):
 				if is_taper: is_mirror_x, is_mirror_y = self.is_mirror_y, self.is_mirror_x
 				else: is_mirror_x, is_mirror_y = self.is_mirror_x, self.is_mirror_y
 				
-				if is_mirror_x:
-					co_list = [list(p.co) for p in curve.splines[0].points]
-					co_list.reverse()
-					for point, new_co in zip(curve.splines[0].points, co_list):
-						new_co[0] = -new_co[0]
-						point.co = new_co
-				
-				if is_mirror_y:
-					co_list = [list(p.co) for p in curve.splines[0].points]
-					if not is_taper:co_list.reverse()
-					for point, new_co in zip(curve.splines[0].points, co_list):
-						new_co[1] = -new_co[1]
-						point.co = new_co
+				for spline in curve.splines:
+					if is_mirror_x:
+						co_list = [list(p.co) for p in spline.points]
+						co_list.reverse()
+						for point, new_co in zip(spline.points, co_list):
+							new_co[0] = -new_co[0]
+							point.co = new_co
+					
+					if is_mirror_y:
+						co_list = [list(p.co) for p in spline.points]
+						if not is_taper:co_list.reverse()
+						for point, new_co in zip(spline.points, co_list):
+							new_co[1] = -new_co[1]
+							point.co = new_co
 		return {'FINISHED'}

@@ -1,4 +1,5 @@
 import bpy, mathutils, math, os
+from . import _common
 
 class ahs_maincurve_fleshout(bpy.types.Operator):
 	bl_idname = 'object.ahs_maincurve_fleshout'
@@ -111,24 +112,8 @@ class ahs_maincurve_fleshout(bpy.types.Operator):
 					new_co[0] = -new_co[0]
 					point.co = new_co
 			
-			# 位置変更
-			if len(curve.splines):
-				end_co = ob.matrix_world * mathutils.Vector(curve.splines[0].points[-1].co[:3])
-				taper_curve_ob.location, bevel_curve_ob.location = end_co.copy(), end_co.copy()
-			
-			# 回転変更
-			if len(curve.splines):
-				# 最後の辺をトラック
-				taper_curve_ob.rotation_mode, bevel_curve_ob.rotation_mode = 'QUATERNION', 'QUATERNION'
-				last_direction = ob.matrix_world * mathutils.Vector(curve.splines[0].points[-2].co[:3]) - ob.matrix_world * mathutils.Vector(curve.splines[0].points[-1].co[:3])
-				up_direction = mathutils.Vector((0, 0, 1))
-				quat = up_direction.rotation_difference(last_direction)
-				taper_curve_ob.rotation_quaternion, bevel_curve_ob.rotation_quaternion = quat, quat
-				# Z回転
-				diff_co = ob.matrix_world * mathutils.Vector(curve.splines[0].points[-1].co[:3]) - ob.matrix_world * mathutils.Vector(curve.splines[0].points[0].co[:3])
-				rotation_z = math.atan2(diff_co.y, diff_co.x) - curve.splines[0].points[-1].tilt
-				taper_curve_ob.rotation_quaternion *= mathutils.Quaternion((0, 0, 1), rotation_z)
-				bevel_curve_ob.rotation_quaternion *= mathutils.Quaternion((0, 0, 1), rotation_z - math.radians(90))
+			_common.relocation_taper_and_bevel(ob, taper_curve_ob, True)
+			_common.relocation_taper_and_bevel(ob, bevel_curve_ob, False)
 			
 			# 拡縮変更
 			taper_curve_ob.scale = (self.scale, self.scale, self.scale)

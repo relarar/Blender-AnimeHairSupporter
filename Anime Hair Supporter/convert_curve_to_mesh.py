@@ -17,11 +17,12 @@ class ahs_convert_curve_to_mesh(bpy.types.Operator):
 	
 	def execute(self, context):
 		name = context.active_object.name
-		re_result = re.search(r'^[^:]+', name)
-		if re_result: name = re_result.group(0)
+		re_result = re.search(r'^(.+):HairCurve', name)
+		if re_result: name = re_result.group(1)
 		
 		new_verts, new_edges = [], []
-		for ob in context.selected_objects:
+		for ob in context.selected_objects[:]:
+			ob.select = False
 			if ob.type != 'CURVE': continue
 			curve = ob.data
 			

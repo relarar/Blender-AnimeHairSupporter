@@ -45,34 +45,35 @@ class ahs_maincurve_gradation_tilt(bpy.types.Operator):
 			if ob.type != 'CURVE': continue
 			curve = ob.data
 			if not len(curve.splines): continue
-			spline = curve.splines[0]
-			if len(spline.points) < 2: continue
 			
-			total_length = 0.0
-			for index, point in enumerate(spline.points):
-				if index == 0: continue
-				diff_co = mathutils.Vector(point.co[:3]) - mathutils.Vector(spline.points[index - 1].co[:3])
-				total_length += diff_co.length
-			
-			if total_length == 0.0: continue
-			
-			current_length = 0.0
-			for index, point in enumerate(spline.points):
-				if 1 <= index:
+			for spline in curve.splines:
+				if len(spline.points) < 2: continue
+				
+				total_length = 0.0
+				for index, point in enumerate(spline.points):
+					if index == 0: continue
 					diff_co = mathutils.Vector(point.co[:3]) - mathutils.Vector(spline.points[index - 1].co[:3])
-					current_length += diff_co.length
+					total_length += diff_co.length
 				
-				current_length_ratio = current_length / total_length
+				if total_length == 0.0: continue
 				
-				if current_length_ratio <= begin_ratio:
-					current_tilt = self.begin_tilt
-				elif end_ratio <= current_length_ratio:
-					current_tilt = self.end_tilt
-				else:
-					tilt_ratio = (current_length_ratio - begin_ratio) / (end_ratio - begin_ratio)
-					current_tilt = (self.begin_tilt * (1 - tilt_ratio)) + (self.end_tilt * (tilt_ratio))
-				
-				if   self.mode == 'ABSOLUTE': point.tilt = current_tilt
-				elif self.mode == 'RELATIVE': point.tilt += current_tilt
+				current_length = 0.0
+				for index, point in enumerate(spline.points):
+					if 1 <= index:
+						diff_co = mathutils.Vector(point.co[:3]) - mathutils.Vector(spline.points[index - 1].co[:3])
+						current_length += diff_co.length
+					
+					current_length_ratio = current_length / total_length
+					
+					if current_length_ratio <= begin_ratio:
+						current_tilt = self.begin_tilt
+					elif end_ratio <= current_length_ratio:
+						current_tilt = self.end_tilt
+					else:
+						tilt_ratio = (current_length_ratio - begin_ratio) / (end_ratio - begin_ratio)
+						current_tilt = (self.begin_tilt * (1 - tilt_ratio)) + (self.end_tilt * (tilt_ratio))
+					
+					if   self.mode == 'ABSOLUTE': point.tilt = current_tilt
+					elif self.mode == 'RELATIVE': point.tilt += current_tilt
 		
 		return {'FINISHED'}

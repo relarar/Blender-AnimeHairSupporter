@@ -6,7 +6,7 @@ class ahs_convert_mesh_to_curve(bpy.types.Operator):
 	bl_options = {'REGISTER', 'UNDO'}
 	
 	order_u = bpy.props.IntProperty(name="次数", default=3, min=3, max=6, soft_min=3, soft_max=6)
-	extra_deform_multi = bpy.props.IntProperty(name="余剰変形率", default=50, min=-100, max=200, soft_min=-100, soft_max=200, subtype='PERCENTAGE')
+	extra_deform_multi = bpy.props.IntProperty(name="余剰変形率", default=0, min=-100, max=200, soft_min=-100, soft_max=200, subtype='PERCENTAGE')
 	is_remove_mesh = bpy.props.BoolProperty(name="元にした辺メッシュを削除", default=True)
 	
 	@classmethod
@@ -21,6 +21,7 @@ class ahs_convert_mesh_to_curve(bpy.types.Operator):
 	def execute(self, context):
 		new_objects = []
 		for ob in context.selected_objects[:]:
+			ob.select = False
 			if ob.type != 'MESH': continue
 			if len(ob.data.vertices) < 2 or len(ob.data.edges) < 1 or len(ob.data.polygons): continue
 			
@@ -107,8 +108,6 @@ class ahs_convert_mesh_to_curve(bpy.types.Operator):
 			if self.is_remove_mesh:
 				context.blend_data.meshes.remove(ob.data, do_unlink=True)
 				context.blend_data.objects.remove(ob, do_unlink=True)
-			else:
-				ob.select = False
 		
 		# 新規オブジェクトをアクティブ＆選択
 		if len(new_objects): context.scene.objects.active = new_objects[0]

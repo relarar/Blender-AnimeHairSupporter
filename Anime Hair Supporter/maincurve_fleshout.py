@@ -12,6 +12,11 @@ class ahs_maincurve_fleshout(bpy.types.Operator):
 		('Sphere', "円", "", 'SPHERECURVE'),
 		('Reversed', "先太り", "", 'PMARKER'),
 		('ReversedSuper', "より先太り", "", 'CURVE_BEZCURVE'),
+		('TaperedOpen', "根本開き・先細り", "", 'CURVE_DATA'),
+		('TaperedSuperOpen', "根本開き・より先細り", "", 'MOD_CURVE'),
+		('SphereOpen', "根本開き・円", "", 'SPHERECURVE'),
+		('ReversedOpen', "根本開き・先太り", "", 'PMARKER'),
+		('ReversedSuperOpen', "根本開き・より先太り", "", 'CURVE_BEZCURVE'),
 		]
 	for i, item in enumerate(items): items[i] = tuple(list(item) + [i + 1])
 	taper_type = bpy.props.EnumProperty(items=items, name="テーパー", default='Tapered')
@@ -37,7 +42,7 @@ class ahs_maincurve_fleshout(bpy.types.Operator):
 	bevel_type = bpy.props.EnumProperty(items=items, name="ベベル", default='Sharp')
 	is_bevel_mirror = bpy.props.BoolProperty(name="ベベルを左右反転", default=False)
 	
-	scale = bpy.props.FloatProperty(name="半径", default=0.2, min=0, max=10, soft_min=0, soft_max=10, step=3, precision=2)
+	scale = bpy.props.FloatProperty(name="半径", default=0.2, min=0, max=10, soft_min=0, soft_max=10, step=0.1, precision=3)
 	scale_y_multi = bpy.props.IntProperty(name="平たさ", default=50, min=0, max=100, soft_min=0, soft_max=100, subtype='PERCENTAGE')
 	
 	@classmethod

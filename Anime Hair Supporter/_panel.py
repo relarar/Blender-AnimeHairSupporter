@@ -50,7 +50,7 @@ class VIEW3D_PT_tools_anime_hair_supporter(bpy.types.Panel):
 		# 次数
 		try: is_successed = context.active_object.data.taper_object and context.active_object.data.bevel_object and context.active_object.data.splines.active
 		except: is_successed = False
-		if is_successed: row.prop(context.active_object.data.splines.active, 'order_u', text="次数", slider=True)
+		if is_successed: row.prop(context.active_object.data.splines.active, 'order_u', text="次数")
 		else: row.label(text="次数:")
 		
 		# アクティブ化

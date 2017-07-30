@@ -31,6 +31,7 @@ if 'bpy' in locals():
 	imp.reload(maincurve_activate_taper)
 	
 	imp.reload(tapercurve_id_singlize)
+	imp.reload(tapercurve_change_type)
 	imp.reload(tapercurve_move)
 	imp.reload(tapercurve_mirror)
 	imp.reload(tapercurve_select)
@@ -51,6 +52,7 @@ else:
 	from . import maincurve_activate_taper
 	
 	from . import tapercurve_id_singlize
+	from . import tapercurve_change_type
 	from . import tapercurve_move
 	from . import tapercurve_mirror
 	from . import tapercurve_select

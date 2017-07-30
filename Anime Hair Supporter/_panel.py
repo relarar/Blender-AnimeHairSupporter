@@ -66,13 +66,17 @@ class VIEW3D_PT_tools_anime_hair_supporter(bpy.types.Panel):
 		row.label("テーパーカーブ", icon='CURVE_NCURVE')
 		row.operator('object.ahs_tapercurve_id_singlize', text="", icon='COPY_ID')
 		
-		# 位置を再設定とか
+		# 種類を変更とか
 		row = box.split(percentage=0.6, align=False)
-		row_sub = row.row(align=True)
-		row_sub.operator('object.ahs_tapercurve_move', icon='PARTICLE_TIP').mode = 'TAPER'
-		row_sub.operator('object.ahs_tapercurve_move', text="", icon='OUTLINER_DATA_ARMATURE').mode = 'BOTH'
+		op = row.operator('object.ahs_tapercurve_change_type', icon='HAND')
+		op.is_taper, op.is_bevel = True, False
 		op = row.operator('object.ahs_tapercurve_mirror', icon='MOD_MIRROR')
 		op.mode, op.is_mirror_x, op.is_mirror_y = 'TAPER', False, True
+		
+		# 位置を再設定とか
+		row = box.row(align=True)
+		row.operator('object.ahs_tapercurve_move', icon='PARTICLE_TIP').mode = 'TAPER'
+		row.operator('object.ahs_tapercurve_move', text="", icon='OUTLINER_DATA_ARMATURE').mode = 'BOTH'
 		
 		# サブツール
 		column = box.column(align=True)
@@ -108,13 +112,17 @@ class VIEW3D_PT_tools_anime_hair_supporter(bpy.types.Panel):
 		row.label("ベベルカーブ", icon='SURFACE_NCIRCLE')
 		row.operator('object.ahs_tapercurve_id_singlize', text="", icon='COPY_ID')
 		
-		# 位置を再設定とか
+		# 種類を変更とか
 		row = box.split(percentage=0.6, align=False)
-		row_sub = row.row(align=True)
-		row_sub.operator('object.ahs_tapercurve_move', icon='PARTICLE_TIP').mode = 'BEVEL'
-		row_sub.operator('object.ahs_tapercurve_move', text="", icon='OUTLINER_DATA_ARMATURE').mode = 'BOTH'
+		op = row.operator('object.ahs_tapercurve_change_type', icon='HAND')
+		op.is_taper, op.is_bevel = False, True
 		op = row.operator('object.ahs_tapercurve_mirror', icon='MOD_MIRROR')
 		op.mode, op.is_mirror_x, op.is_mirror_y = 'BEVEL', True, False
+		
+		# 位置を再設定とか
+		row = box.row(align=True)
+		row.operator('object.ahs_tapercurve_move', icon='PARTICLE_TIP').mode = 'BEVEL'
+		row.operator('object.ahs_tapercurve_move', text="", icon='OUTLINER_DATA_ARMATURE').mode = 'BOTH'
 		
 		# サブツール
 		column = box.column(align=True)

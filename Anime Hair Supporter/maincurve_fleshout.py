@@ -68,7 +68,7 @@ class ahs_maincurve_fleshout(bpy.types.Operator):
 		# すでにテーパーかベベルとして指定されているオブジェクトをリスト
 		taper_and_bevel_objects = [c.taper_object for c in context.blend_data.curves] + [c.bevel_object for c in context.blend_data.curves]
 		
-		blend_path = os.path.join(os.path.dirname(__file__), "_append_data.blend")
+		blend_path = _common.get_append_data_blend_path()
 		
 		for ob in context.selected_objects:
 			if ob in taper_and_bevel_objects: continue

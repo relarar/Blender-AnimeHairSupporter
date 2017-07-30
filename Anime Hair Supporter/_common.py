@@ -1,5 +1,8 @@
-import bpy, math, mathutils
+import bpy, os, math, mathutils
 from . import _common
+
+def get_append_data_blend_path():
+	return os.path.join(os.path.dirname(__file__), "_append_data.blend")
 
 def relocation_taper_and_bevel(main_ob, sub_ob, is_taper):
 	# 位置変更

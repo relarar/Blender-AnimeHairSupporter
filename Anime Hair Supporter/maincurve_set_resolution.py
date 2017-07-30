@@ -23,6 +23,12 @@ class ahs_maincurve_set_resolution(bpy.types.Operator):
 		except: return False
 		return True
 	
+	def invoke(self, context, event):
+		try:
+			self.value = context.active_object.data.splines.active.resolution_u
+		except: pass
+		return self.execute(context)
+	
 	def execute(self, context):
 		for ob in context.selected_objects:
 			if ob.type != 'CURVE': continue

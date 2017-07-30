@@ -1,5 +1,4 @@
 import bpy, os, math, mathutils
-from . import _common
 
 def get_append_data_blend_path():
 	return os.path.join(os.path.dirname(__file__), "_append_data.blend")
@@ -11,11 +10,11 @@ def get_taper_enum_items():
 		('Sphere', "円", "", 'SPHERECURVE'),
 		('Reversed', "先太り", "", 'PMARKER'),
 		('ReversedSuper', "より先太り", "", 'CURVE_BEZCURVE'),
-		('TaperedOpen', "根本開き・先細り", "", 'CURVE_DATA'),
-		('TaperedSuperOpen', "根本開き・より先細り", "", 'MOD_CURVE'),
-		('SphereOpen', "根本開き・円", "", 'SPHERECURVE'),
-		('ReversedOpen', "根本開き・先太り", "", 'PMARKER'),
-		('ReversedSuperOpen', "根本開き・より先太り", "", 'CURVE_BEZCURVE'),
+		('TaperedOpen', "[根本開き] 先細り", "", 'CURVE_DATA'),
+		('TaperedSuperOpen', "[根本開き] より先細り", "", 'MOD_CURVE'),
+		('SphereOpen', "[根本開き] 円", "", 'SPHERECURVE'),
+		('ReversedOpen', "[根本開き] 先太り", "", 'PMARKER'),
+		('ReversedSuperOpen', "[根本開き] より先太り", "", 'CURVE_BEZCURVE'),
 		]
 	for i, item in enumerate(items): items[i] = tuple(list(item) + [i + 1])
 	return items

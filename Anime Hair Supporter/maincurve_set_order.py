@@ -1,11 +1,11 @@
 import bpy
 
-class ahs_maincurve_set_resolution(bpy.types.Operator):
-	bl_idname = 'object.ahs_maincurve_set_resolution'
-	bl_label = "解像度を変更"
+class ahs_maincurve_set_order(bpy.types.Operator):
+	bl_idname = 'object.ahs_maincurve_set_order'
+	bl_label = "次数を変更"
 	bl_options = {'REGISTER', 'UNDO'}
 	
-	value = bpy.props.IntProperty(name="値", default=12, min=-64, max=64, soft_min=-64, soft_max=64)
+	value = bpy.props.IntProperty(name="値", default=3, min=-6, max=6, soft_min=-6, soft_max=6)
 	
 	items = [
 		('ABSOLUTE', "絶対", "", 'PREFERENCES', 1),
@@ -27,6 +27,6 @@ class ahs_maincurve_set_resolution(bpy.types.Operator):
 		for ob in context.selected_objects:
 			if ob.type != 'CURVE': continue
 			for spline in ob.data.splines:
-				if self.mode == 'ABSOLUTE': spline.resolution_u = self.value
-				if self.mode == 'RELATIVE': spline.resolution_u += self.value
+				if self.mode == 'ABSOLUTE': spline.order_u = self.value
+				if self.mode == 'RELATIVE': spline.order_u += self.value
 		return {'FINISHED'}

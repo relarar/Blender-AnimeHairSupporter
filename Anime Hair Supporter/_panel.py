@@ -55,6 +55,7 @@ class VIEW3D_PT_tools_anime_hair_supporter(bpy.types.Panel):
 		except: is_successed = False
 		if is_successed: row.prop(context.active_object.data.splines.active, 'order_u', text="次数")
 		else: row.label(text="次数:")
+		row.operator('object.ahs_maincurve_set_order', text="", icon='PREFERENCES')
 		
 		# アクティブ化
 		row = box.row(align=True)

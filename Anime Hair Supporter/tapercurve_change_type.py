@@ -11,6 +11,7 @@ class ahs_tapercurve_change_type(bpy.types.Operator):
 	
 	is_bevel = bpy.props.BoolProperty(name="ベベルを変更")
 	bevel_type = bpy.props.EnumProperty(items=_common.get_bevel_enum_items(), name="ベベル", default='Sharp')
+	is_bevel_mirror = bpy.props.BoolProperty(name="ベベルを左右反転", default=False)
 	
 	@classmethod
 	def poll(cls, context):
@@ -39,6 +40,7 @@ class ahs_tapercurve_change_type(bpy.types.Operator):
 		row.prop(self, 'is_bevel', text="", icon=icon, toggle=True)
 		sub_row = row.row(align=True)
 		sub_row.prop(self, 'bevel_type')
+		sub_row.prop(self, 'is_bevel_mirror', text="", icon='MOD_MIRROR')
 		sub_row.enabled = self.is_bevel
 	
 	def execute(self, context):
@@ -85,5 +87,13 @@ class ahs_tapercurve_change_type(bpy.types.Operator):
 				ob.data = new_curve
 				context.blend_data.curves.remove(pre_curve, do_unlink=True)
 				new_curve.name = pre_name
+				
+				# 左右反転処理
+				if self.is_bevel_mirror:
+					co_list = [list(p.co) for p in new_curve.splines[0].points]
+					co_list.reverse()
+					for point, new_co in zip(new_curve.splines[0].points, co_list):
+						new_co[0] = -new_co[0]
+						point.co = new_co
 		
 		return {'FINISHED'}

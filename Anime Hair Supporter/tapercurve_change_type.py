@@ -7,41 +7,10 @@ class ahs_tapercurve_change_type(bpy.types.Operator):
 	bl_options = {'REGISTER', 'UNDO'}
 	
 	is_taper = bpy.props.BoolProperty(name="テーパーを変更")
-	items = [
-		('Tapered', "先細り", "", 'CURVE_DATA'),
-		('TaperedSuper', "より先細り", "", 'MOD_CURVE'),
-		('Sphere', "円", "", 'SPHERECURVE'),
-		('Reversed', "先太り", "", 'PMARKER'),
-		('ReversedSuper', "より先太り", "", 'CURVE_BEZCURVE'),
-		('TaperedOpen', "根本開き・先細り", "", 'CURVE_DATA'),
-		('TaperedSuperOpen', "根本開き・より先細り", "", 'MOD_CURVE'),
-		('SphereOpen', "根本開き・円", "", 'SPHERECURVE'),
-		('ReversedOpen', "根本開き・先太り", "", 'PMARKER'),
-		('ReversedSuperOpen', "根本開き・より先太り", "", 'CURVE_BEZCURVE'),
-		]
-	for i, item in enumerate(items): items[i] = tuple(list(item) + [i + 1])
-	taper_type = bpy.props.EnumProperty(items=items, name="テーパー", default='Tapered')
+	taper_type = bpy.props.EnumProperty(items=_common.get_taper_enum_items(), name="テーパー", default='Tapered')
 	
 	is_bevel = bpy.props.BoolProperty(name="ベベルを変更")
-	items = [
-		('Sphere', "円", "", 'MESH_CIRCLE'),
-		('2', "2本", "", 'OUTLINER_OB_META'),
-		('3', "3本", "", 'COLLAPSEMENU'),
-		('Triangle', "三角", "", 'EDITMODE_VEC_HLT'),
-		('TriangleLoose', "ゆるやか三角", "", 'PLAY_REVERSE'),
-		('Square', "四角", "", 'MESH_PLANE'),
-		('SquareLoose', "ゆるやか四角", "", 'LATTICE_DATA'),
-		('Diamond', "ひし形", "", 'SPACE3'),
-		('DiamondLoose', "ゆるやかひし形", "", 'KEYTYPE_EXTREME_VEC'),
-		('Sharp', "シャープ", "", 'LINCURVE'),
-		('Leaf', "葉っぱ", "", 'MAN_ROT'),
-		('V', "切り込み", "", 'FILE_TICK'),
-		('Tilde', "波", "", 'IPO_EASE_IN_OUT'),
-		('Step', "段差", "", 'IPO_CONSTANT'),
-		('Corrugated', "ギザギザ", "", 'RNDCURVE'),
-		]
-	for i, item in enumerate(items): items[i] = tuple(list(item) + [i + 1])
-	bevel_type = bpy.props.EnumProperty(items=items, name="ベベル", default='Sharp')
+	bevel_type = bpy.props.EnumProperty(items=_common.get_bevel_enum_items(), name="ベベル", default='Sharp')
 	
 	@classmethod
 	def poll(cls, context):

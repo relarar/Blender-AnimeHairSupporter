@@ -164,6 +164,10 @@ class VIEW3D_PT_tools_anime_hair_supporter(bpy.types.Panel):
 		
 		# コンバーターズ
 		row = self.layout.row(align=True)
+		row.operator('object.ahs_convert_curve_to_armature', icon='ARMATURE_DATA')
+		row.enabled = bool(len([o for o in context.selected_objects if o.type == 'CURVE']))
+		
+		row = self.layout.row(align=True)
 		row.operator('object.convert', text="メッシュ化", icon='MESH_UVSPHERE').target = 'MESH'
 		for ob in context.selected_objects:
 			if ob.type != 'CURVE': continue

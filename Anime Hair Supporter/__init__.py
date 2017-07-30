@@ -28,6 +28,7 @@ if 'bpy' in locals():
 	imp.reload(maincurve_gradation_tilt)
 	imp.reload(maincurve_select)
 	imp.reload(maincurve_hide)
+	imp.reload(maincurve_set_resolution)
 	imp.reload(maincurve_activate_taper)
 	
 	imp.reload(tapercurve_id_singlize)
@@ -49,6 +50,7 @@ else:
 	from . import maincurve_gradation_tilt
 	from . import maincurve_select
 	from . import maincurve_hide
+	from . import maincurve_set_resolution
 	from . import maincurve_activate_taper
 	
 	from . import tapercurve_id_singlize

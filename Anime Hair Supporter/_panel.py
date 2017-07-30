@@ -42,12 +42,14 @@ class VIEW3D_PT_tools_anime_hair_supporter(bpy.types.Panel):
 		row.operator('object.ahs_maincurve_hide', text="隠す", icon='VISIBLE_IPO_OFF').is_hide = True
 		
 		# 解像度
-		row = column.split(percentage=0.59, align=True)
+		row = column.row(align=True)
 		try: is_successed = context.active_object.data.taper_object and context.active_object.data.bevel_object and context.active_object.data.splines.active
 		except: is_successed = False
 		if is_successed: row.prop(context.active_object.data.splines.active, 'resolution_u', text="解像度")
 		else: row.label(text="解像度:")
+		row.operator('object.ahs_maincurve_set_resolution', text="", icon='PREFERENCES')
 		# 次数
+		row = column.row(align=True)
 		try: is_successed = context.active_object.data.taper_object and context.active_object.data.bevel_object and context.active_object.data.splines.active
 		except: is_successed = False
 		if is_successed: row.prop(context.active_object.data.splines.active, 'order_u', text="次数")
@@ -76,7 +78,7 @@ class VIEW3D_PT_tools_anime_hair_supporter(bpy.types.Panel):
 		# 位置を再設定とか
 		row = box.row(align=True)
 		row.operator('object.ahs_tapercurve_move', icon='PARTICLE_TIP').mode = 'TAPER'
-		row.operator('object.ahs_tapercurve_move', text="", icon='OUTLINER_DATA_ARMATURE').mode = 'BOTH'
+		row.operator('object.ahs_tapercurve_move', text="両方", icon='OUTLINER_DATA_ARMATURE').mode = 'BOTH'
 		
 		# サブツール
 		column = box.column(align=True)
@@ -88,18 +90,20 @@ class VIEW3D_PT_tools_anime_hair_supporter(bpy.types.Panel):
 		op.mode, op.is_hide = 'TAPER', True
 		
 		# 解像度
+		row = column.row(align=True)
 		try:
-			column.prop(context.active_object.data.taper_object.data.splines.active, 'resolution_u', text="解像度")
+			row.prop(context.active_object.data.taper_object.data.splines.active, 'resolution_u', text="解像度")
 			is_successed = True
 		except: is_successed = False
 		if not is_successed:
 			taper_objects = [c.taper_object for c in context.blend_data.curves if c.taper_object]
 			try:
 				if context.active_object in taper_objects:
-					column.prop(context.active_object.data.splines.active, 'resolution_u', text="解像度")
+					row.prop(context.active_object.data.splines.active, 'resolution_u', text="解像度")
 					is_successed = True
 			except: is_successed = False
-		if not is_successed: column.label(text="解像度:")
+		if not is_successed: row.label(text="解像度:")
+		row.operator('object.ahs_maincurve_set_resolution', text="", icon='PREFERENCES')
 		
 		# アクティブ化
 		box.operator('object.ahs_tapercurve_activate_main', icon='ZOOM_SELECTED')
@@ -122,7 +126,7 @@ class VIEW3D_PT_tools_anime_hair_supporter(bpy.types.Panel):
 		# 位置を再設定とか
 		row = box.row(align=True)
 		row.operator('object.ahs_tapercurve_move', icon='PARTICLE_TIP').mode = 'BEVEL'
-		row.operator('object.ahs_tapercurve_move', text="", icon='OUTLINER_DATA_ARMATURE').mode = 'BOTH'
+		row.operator('object.ahs_tapercurve_move', text="両方", icon='OUTLINER_DATA_ARMATURE').mode = 'BOTH'
 		
 		# サブツール
 		column = box.column(align=True)
@@ -134,18 +138,20 @@ class VIEW3D_PT_tools_anime_hair_supporter(bpy.types.Panel):
 		op.mode, op.is_hide = 'BEVEL', True
 		
 		# 解像度
+		row = column.row(align=True)
 		try:
-			column.prop(context.active_object.data.bevel_object.data.splines.active, 'resolution_u', text="解像度")
+			row.prop(context.active_object.data.bevel_object.data.splines.active, 'resolution_u', text="解像度")
 			is_successed = True
 		except: is_successed = False
 		if not is_successed:
 			bevel_objects = [c.bevel_object for c in context.blend_data.curves if c.bevel_object]
 			try:
 				if context.active_object in bevel_objects:
-					column.prop(context.active_object.data.splines.active, 'resolution_u', text="解像度")
+					row.prop(context.active_object.data.splines.active, 'resolution_u', text="解像度")
 					is_successed = True
 			except: is_successed = False
-		if not is_successed: column.label(text="解像度:")
+		if not is_successed: row.label(text="解像度:")
+		row.operator('object.ahs_maincurve_set_resolution', text="", icon='PREFERENCES')
 		
 		# アクティブ化
 		box.operator('object.ahs_tapercurve_activate_main', icon='ZOOM_SELECTED')

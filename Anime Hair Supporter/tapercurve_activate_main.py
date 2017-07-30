@@ -2,7 +2,7 @@ import bpy, mathutils
 
 class ahs_tapercurve_activate_main(bpy.types.Operator):
 	bl_idname = 'object.ahs_tapercurve_activate_main'
-	bl_label = "メインカーブへ"
+	bl_label = "メインへ"
 	bl_options = {'REGISTER', 'UNDO'}
 	
 	@classmethod

@@ -38,6 +38,7 @@ if 'bpy' in locals():
 	imp.reload(tapercurve_select)
 	imp.reload(tapercurve_hide)
 	imp.reload(tapercurve_activate_main)
+	imp.reload(tapercurve_remove_alones)
 else:
 	from . import _panel
 	
@@ -60,6 +61,7 @@ else:
 	from . import tapercurve_select
 	from . import tapercurve_hide
 	from . import tapercurve_activate_main
+	from . import tapercurve_remove_alones
 
 # この位置に記述 (重要)
 import bpy

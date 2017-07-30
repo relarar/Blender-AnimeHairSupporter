@@ -9,6 +9,7 @@ class VIEW3D_PT_tools_anime_hair_supporter(bpy.types.Panel):
 	bl_options = {'DEFAULT_CLOSED'}
 	
 	def draw(self, context):
+		# コンバーターズ
 		column = self.layout.column(align=True)
 		row = column.row(align=True)
 		row.operator('object.ahs_convert_mesh_to_curve', icon='CURVE_NCURVE')
@@ -76,7 +77,7 @@ class VIEW3D_PT_tools_anime_hair_supporter(bpy.types.Panel):
 		op.mode, op.is_mirror_x, op.is_mirror_y = 'TAPER', False, True
 		
 		# 位置を再設定とか
-		row = box.row(align=True)
+		row = box.split(percentage=0.6, align=True)
 		row.operator('object.ahs_tapercurve_move', icon='PARTICLE_TIP').mode = 'TAPER'
 		row.operator('object.ahs_tapercurve_move', text="両方", icon='OUTLINER_DATA_ARMATURE').mode = 'BOTH'
 		
@@ -105,8 +106,10 @@ class VIEW3D_PT_tools_anime_hair_supporter(bpy.types.Panel):
 		if not is_successed: row.label(text="解像度:")
 		row.operator('object.ahs_maincurve_set_resolution', text="", icon='PREFERENCES')
 		
-		# アクティブ化
-		box.operator('object.ahs_tapercurve_activate_main', icon='ZOOM_SELECTED')
+		# アクティブ化とか
+		row = box.row(align=False)
+		row.operator('object.ahs_tapercurve_activate_main', icon='ZOOM_SELECTED')
+		row.operator('object.ahs_tapercurve_remove_alones', icon='X').mode = 'BOTH'
 		
 		
 		
@@ -124,7 +127,7 @@ class VIEW3D_PT_tools_anime_hair_supporter(bpy.types.Panel):
 		op.mode, op.is_mirror_x, op.is_mirror_y = 'BEVEL', True, False
 		
 		# 位置を再設定とか
-		row = box.row(align=True)
+		row = box.split(percentage=0.6, align=True)
 		row.operator('object.ahs_tapercurve_move', icon='PARTICLE_TIP').mode = 'BEVEL'
 		row.operator('object.ahs_tapercurve_move', text="両方", icon='OUTLINER_DATA_ARMATURE').mode = 'BOTH'
 		
@@ -153,11 +156,14 @@ class VIEW3D_PT_tools_anime_hair_supporter(bpy.types.Panel):
 		if not is_successed: row.label(text="解像度:")
 		row.operator('object.ahs_maincurve_set_resolution', text="", icon='PREFERENCES')
 		
-		# アクティブ化
-		box.operator('object.ahs_tapercurve_activate_main', icon='ZOOM_SELECTED')
+		# アクティブ化とか
+		row = box.row(align=False)
+		row.operator('object.ahs_tapercurve_activate_main', icon='ZOOM_SELECTED')
+		row.operator('object.ahs_tapercurve_remove_alones', icon='X').mode = 'BOTH'
 		
 		
 		
+		# コンバーターズ
 		row = self.layout.row(align=True)
 		row.operator('object.convert', text="メッシュ化", icon='MESH_ICOSPHERE').target = 'MESH'
 		for ob in context.selected_objects:

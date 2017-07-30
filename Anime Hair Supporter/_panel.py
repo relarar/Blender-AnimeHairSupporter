@@ -67,7 +67,7 @@ class VIEW3D_PT_tools_anime_hair_supporter(bpy.types.Panel):
 		# テーパーカーブ
 		box = self.layout.box()
 		row = box.row(align=False)
-		row.label("テーパーカーブ", icon='CURVE_NCURVE')
+		row.label("テーパーカーブ (太さ)", icon='CURVE_NCURVE')
 		row.operator('object.ahs_tapercurve_id_singlize', text="", icon='COPY_ID')
 		
 		# 種類を変更とか
@@ -78,9 +78,9 @@ class VIEW3D_PT_tools_anime_hair_supporter(bpy.types.Panel):
 		op.mode, op.is_mirror_x, op.is_mirror_y = 'TAPER', False, True
 		
 		# 位置を再設定とか
-		row = box.split(percentage=0.6, align=True)
-		row.operator('object.ahs_tapercurve_move', icon='PARTICLE_TIP').mode = 'TAPER'
-		row.operator('object.ahs_tapercurve_move', text="両方", icon='OUTLINER_DATA_ARMATURE').mode = 'BOTH'
+		row = box.row(align=False)
+		row.operator('object.ahs_tapercurve_move', icon='PARTICLE_TIP').mode = 'BOTH'
+		row.operator('object.ahs_tapercurve_remove_alones', icon='X').mode = 'BOTH'
 		
 		# サブツール
 		column = box.column(align=True)
@@ -110,14 +110,13 @@ class VIEW3D_PT_tools_anime_hair_supporter(bpy.types.Panel):
 		# アクティブ化とか
 		row = box.row(align=False)
 		row.operator('object.ahs_tapercurve_activate_main', icon='ZOOM_SELECTED')
-		row.operator('object.ahs_tapercurve_remove_alones', icon='X').mode = 'BOTH'
 		
 		
 		
 		# ベベルカーブ
 		box = self.layout.box()
 		row = box.row(align=False)
-		row.label("ベベルカーブ", icon='SURFACE_NCIRCLE')
+		row.label("ベベルカーブ (断面)", icon='SURFACE_NCIRCLE')
 		row.operator('object.ahs_tapercurve_id_singlize', text="", icon='COPY_ID')
 		
 		# 種類を変更とか
@@ -128,9 +127,9 @@ class VIEW3D_PT_tools_anime_hair_supporter(bpy.types.Panel):
 		op.mode, op.is_mirror_x, op.is_mirror_y = 'BEVEL', True, False
 		
 		# 位置を再設定とか
-		row = box.split(percentage=0.6, align=True)
-		row.operator('object.ahs_tapercurve_move', icon='PARTICLE_TIP').mode = 'BEVEL'
-		row.operator('object.ahs_tapercurve_move', text="両方", icon='OUTLINER_DATA_ARMATURE').mode = 'BOTH'
+		row = box.row(align=False)
+		row.operator('object.ahs_tapercurve_move', icon='PARTICLE_TIP').mode = 'BOTH'
+		row.operator('object.ahs_tapercurve_remove_alones', icon='X').mode = 'BOTH'
 		
 		# サブツール
 		column = box.column(align=True)
@@ -160,13 +159,12 @@ class VIEW3D_PT_tools_anime_hair_supporter(bpy.types.Panel):
 		# アクティブ化とか
 		row = box.row(align=False)
 		row.operator('object.ahs_tapercurve_activate_main', icon='ZOOM_SELECTED')
-		row.operator('object.ahs_tapercurve_remove_alones', icon='X').mode = 'BOTH'
 		
 		
 		
 		# コンバーターズ
 		row = self.layout.row(align=True)
-		row.operator('object.convert', text="メッシュ化", icon='MESH_ICOSPHERE').target = 'MESH'
+		row.operator('object.convert', text="メッシュ化", icon='MESH_UVSPHERE').target = 'MESH'
 		for ob in context.selected_objects:
 			if ob.type != 'CURVE': continue
 			if ob.data.taper_object and ob.data.bevel_object:

@@ -5,16 +5,22 @@ class ahs_convert_curve_to_mesh(bpy.types.Operator):
 	bl_label = "カーブ > メッシュ"
 	bl_options = {'REGISTER', 'UNDO'}
 	
+	is_join = bpy.props.BoolProperty(name="オブジェクトを統合", default=True)
 	is_remove_doubles = bpy.props.BoolProperty(name="重複頂点を削除", default=True)
-	is_pack_islands = bpy.props.BoolProperty(name="島を梱包", default=True)
+	is_uv_pack_islands = bpy.props.BoolProperty(name="UVの島を梱包", default=True)
 	
 	@classmethod
 	def poll(cls, context):
 		return True
 	
 	def draw(self, context):
+		self.layout.prop(self, 'is_join', icon='FORCE_LENNARDJONES', toggle=True)
+		
 		self.layout.prop(self, 'is_remove_doubles', icon='STICKY_UVS_LOC', toggle=True)
-		self.layout.prop(self, 'is_pack_islands', icon='UV_ISLANDSEL', toggle=True)
+		
+		row = self.layout.row(align=True)
+		row.prop(self, 'is_uv_pack_islands', icon='UV_ISLANDSEL', toggle=True)
+		row.enabled = self.is_join
 	
 	def execute(self, context):
 		# メッシュ選択モードを一時的に頂点モードに
@@ -114,10 +120,10 @@ class ahs_convert_curve_to_mesh(bpy.types.Operator):
 		context.scene.objects.active = sorted(target_objects, key=lambda o: o.name)[0]
 		
 		# 公式のオブジェクト統合
-		bpy.ops.object.join()
+		if self.is_join: bpy.ops.object.join()
 		
 		# UVの島を梱包
-		if self.is_pack_islands:
+		if self.is_uv_pack_islands and self.is_join:
 			bpy.ops.object.mode_set(mode='EDIT')
 			bpy.ops.mesh.select_all(action='SELECT')
 			bpy.ops.uv.average_islands_scale()

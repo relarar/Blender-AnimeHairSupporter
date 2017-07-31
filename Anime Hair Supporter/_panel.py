@@ -108,8 +108,9 @@ class VIEW3D_PT_tools_anime_hair_supporter(bpy.types.Panel):
 		row.operator('object.ahs_maincurve_set_resolution', text="", icon='PREFERENCES')
 		
 		# アクティブ化とか
-		row = box.row(align=False)
+		row = box.row(align=True)
 		row.operator('object.ahs_tapercurve_activate_main', icon='ZOOM_SELECTED')
+		row.operator('object.ahs_tapercurve_activate_bevel', text="ベベルへ", icon='ZOOM_SELECTED').mode = 'BEVEL'
 		
 		
 		
@@ -157,8 +158,9 @@ class VIEW3D_PT_tools_anime_hair_supporter(bpy.types.Panel):
 		row.operator('object.ahs_maincurve_set_resolution', text="", icon='PREFERENCES')
 		
 		# アクティブ化とか
-		row = box.row(align=False)
+		row = box.row(align=True)
 		row.operator('object.ahs_tapercurve_activate_main', icon='ZOOM_SELECTED')
+		row.operator('object.ahs_tapercurve_activate_bevel', text="テーパーへ", icon='ZOOM_SELECTED').mode = 'TAPER'
 		
 		
 		

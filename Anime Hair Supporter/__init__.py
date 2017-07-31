@@ -40,6 +40,7 @@ if 'bpy' in locals():
 	imp.reload(tapercurve_hide)
 	imp.reload(tapercurve_activate_main)
 	imp.reload(tapercurve_remove_alones)
+	imp.reload(tapercurve_activate_bevel)
 	
 	imp.reload(convert_curve_to_armature)
 	imp.reload(convert_curve_to_mesh)
@@ -67,6 +68,7 @@ else:
 	from . import tapercurve_hide
 	from . import tapercurve_activate_main
 	from . import tapercurve_remove_alones
+	from . import tapercurve_activate_bevel
 	
 	from . import convert_curve_to_armature
 	from . import convert_curve_to_mesh

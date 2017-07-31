@@ -28,8 +28,8 @@ class VIEW3D_PT_tools_anime_hair_supporter(bpy.types.Panel):
 		
 		# 肉付け関係
 		row = box.row(align=True)
-		row.operator('object.ahs_maincurve_fleshout', icon='MESH_CAPSULE')
-		row.operator('object.ahs_maincurve_fleshlose', text="", icon='X')
+		row.operator('object.ahs_maincurve_volume_up', icon='MESH_CAPSULE')
+		row.operator('object.ahs_maincurve_volume_down', text="", icon='X')
 		
 		column = box.column(align=True)
 		# 余剰変形
@@ -77,7 +77,7 @@ class VIEW3D_PT_tools_anime_hair_supporter(bpy.types.Panel):
 		
 		# 位置を再設定とか
 		row = box.row(align=False)
-		row.operator('object.ahs_tapercurve_move', icon='PARTICLE_TIP').mode = 'BOTH'
+		row.operator('object.ahs_tapercurve_relocation', icon='PARTICLE_TIP').mode = 'BOTH'
 		row.operator('object.ahs_tapercurve_remove_alones', icon='X').mode = 'BOTH'
 		
 		# サブツール
@@ -123,7 +123,7 @@ class VIEW3D_PT_tools_anime_hair_supporter(bpy.types.Panel):
 		
 		# 位置を再設定とか
 		row = box.row(align=False)
-		row.operator('object.ahs_tapercurve_move', icon='PARTICLE_TIP').mode = 'BOTH'
+		row.operator('object.ahs_tapercurve_relocation', icon='PARTICLE_TIP').mode = 'BOTH'
 		row.operator('object.ahs_tapercurve_remove_alones', icon='X').mode = 'BOTH'
 		
 		# サブツール

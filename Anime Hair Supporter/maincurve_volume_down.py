@@ -1,7 +1,7 @@
 import bpy
 
-class ahs_maincurve_fleshlose(bpy.types.Operator):
-	bl_idname = 'object.ahs_maincurve_fleshlose'
+class ahs_maincurve_volume_down(bpy.types.Operator):
+	bl_idname = 'object.ahs_maincurve_volume_down'
 	bl_label = "肉付けを削除"
 	bl_description = "選択カーブの設定したテーパー/ベベルを削除"
 	bl_options = {'REGISTER', 'UNDO'}

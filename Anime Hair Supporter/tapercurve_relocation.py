@@ -1,8 +1,8 @@
 import bpy, mathutils, math
 from . import _common
 
-class ahs_tapercurve_move(bpy.types.Operator):
-	bl_idname = 'object.ahs_tapercurve_move'
+class ahs_tapercurve_relocation(bpy.types.Operator):
+	bl_idname = 'object.ahs_tapercurve_relocation'
 	bl_label = "再配置"
 	bl_description = "見えているテーパー/ベベルの位置/回転を再設定"
 	bl_options = {'REGISTER', 'UNDO'}

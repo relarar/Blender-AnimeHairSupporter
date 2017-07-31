@@ -3,6 +3,7 @@ import bpy
 class ahs_tapercurve_select(bpy.types.Operator):
 	bl_idname = 'object.ahs_tapercurve_select'
 	bl_label = "選択"
+	bl_description = "テーパー/ベベルをすべて選択"
 	bl_options = {'REGISTER', 'UNDO'}
 	
 	items = [

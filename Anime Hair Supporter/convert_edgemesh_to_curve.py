@@ -3,6 +3,7 @@ import bpy, bmesh, mathutils
 class ahs_convert_edgemesh_to_curve(bpy.types.Operator):
 	bl_idname = 'object.ahs_convert_edgemesh_to_curve'
 	bl_label = "辺メッシュ > カーブ"
+	bl_description = "選択中の辺のみで構成されたメッシュをNURBSカーブに変換"
 	bl_options = {'REGISTER', 'UNDO'}
 	
 	order_u = bpy.props.IntProperty(name="次数", default=3, min=3, max=6, soft_min=3, soft_max=6)

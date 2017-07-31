@@ -4,6 +4,7 @@ from . import _common
 class ahs_tapercurve_id_singlize(bpy.types.Operator):
 	bl_idname = 'object.ahs_tapercurve_id_singlize'
 	bl_label = "テーパー/ベベルのシングルユーザー化"
+	bl_description = "テーパー/ベベルの参照が複数ある場合は複製して各個割り当てる"
 	bl_options = {'REGISTER', 'UNDO'}
 	
 	@classmethod

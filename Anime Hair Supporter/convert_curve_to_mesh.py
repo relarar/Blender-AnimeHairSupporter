@@ -3,6 +3,7 @@ import bpy, bmesh, mathutils
 class ahs_convert_curve_to_mesh(bpy.types.Operator):
 	bl_idname = 'object.ahs_convert_curve_to_mesh'
 	bl_label = "カーブ > メッシュ"
+	bl_description = "選択中の肉付けしたカーブをメッシュに変換"
 	bl_options = {'REGISTER', 'UNDO'}
 	
 	is_join = bpy.props.BoolProperty(name="オブジェクトを統合", default=True)

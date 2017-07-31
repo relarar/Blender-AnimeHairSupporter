@@ -3,6 +3,7 @@ import bpy, re
 class ahs_tapercurve_remove_alones(bpy.types.Operator):
 	bl_idname = 'object.ahs_tapercurve_remove_alones'
 	bl_label = "ぼっち駆除"
+	bl_description = "どのカーブにも属していないテーパー/ベベルと思われるカーブを削除"
 	bl_options = {'REGISTER', 'UNDO'}
 	
 	items = [

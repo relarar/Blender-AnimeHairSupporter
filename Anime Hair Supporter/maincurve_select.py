@@ -3,6 +3,7 @@ import bpy
 class ahs_maincurve_select(bpy.types.Operator):
 	bl_idname = 'object.ahs_maincurve_select'
 	bl_label = "選択"
+	bl_description = "メインカーブをすべて選択する"
 	bl_options = {'REGISTER', 'UNDO'}
 	
 	@classmethod

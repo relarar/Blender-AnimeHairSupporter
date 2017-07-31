@@ -3,6 +3,7 @@ import bpy, math, mathutils
 class ahs_maincurve_gradation_tilt(bpy.types.Operator):
 	bl_idname = 'object.ahs_maincurve_gradation_tilt'
 	bl_label = "グラデーションひねり"
+	bl_description = "選択カーブをゆるやかにひねる/傾ける"
 	bl_options = {'REGISTER', 'UNDO'}
 	
 	is_tilt = bpy.props.BoolProperty(name="傾き", default=True)

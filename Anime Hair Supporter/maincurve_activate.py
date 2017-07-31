@@ -2,7 +2,8 @@ import bpy, mathutils
 
 class ahs_maincurve_activate(bpy.types.Operator):
 	bl_idname = 'object.ahs_maincurve_activate'
-	bl_label = "メインへ"
+	bl_label = "メインカーブをアクティブ化"
+	bl_description = "現在アクティブ状態のテーパー/ベベルの親であるメインカーブへアクティブを移す"
 	bl_options = {'REGISTER', 'UNDO'}
 	
 	@classmethod

@@ -3,6 +3,7 @@ import bpy
 class ahs_tapercurve_mirror(bpy.types.Operator):
 	bl_idname = 'object.ahs_tapercurve_mirror'
 	bl_label = "ミラー"
+	bl_description = "テーパー/ベベルの形状を左右/上下反転"
 	bl_options = {'REGISTER', 'UNDO'}
 	
 	items = [

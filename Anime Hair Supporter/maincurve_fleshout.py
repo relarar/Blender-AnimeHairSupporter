@@ -4,6 +4,7 @@ from . import _common
 class ahs_maincurve_fleshout(bpy.types.Operator):
 	bl_idname = 'object.ahs_maincurve_fleshout'
 	bl_label = "肉付け"
+	bl_description = "選択中のカーブにテーパー/ベベルを設定して実体化する"
 	bl_options = {'REGISTER', 'UNDO'}
 	
 	taper_type = bpy.props.EnumProperty(items=_common.get_taper_enum_items(), name="テーパー", default='Tapered')

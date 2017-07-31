@@ -3,6 +3,7 @@ import bpy, mathutils, re
 class ahs_convert_curve_to_edgemesh(bpy.types.Operator):
 	bl_idname = 'object.ahs_convert_curve_to_edgemesh'
 	bl_label = "カーブ > 辺メッシュ"
+	bl_description = "選択中のNURBSカーブを辺メッシュに戻す"
 	bl_options = {'REGISTER', 'UNDO'}
 	
 	@classmethod

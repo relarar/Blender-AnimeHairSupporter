@@ -46,7 +46,7 @@ class ahs_convert_curve_to_mesh(bpy.types.Operator):
 			bm = bmesh.from_edit_mesh(ob.data)
 			
 			bm.faces.ensure_lookup_table()
-			center_face = bm.faces[int(len(bm.faces) * 0.5)]
+			center_face = bm.faces[int(len(bm.faces) * 0.3)]
 			center_face.loops[1].edge.select_set(True)
 			
 			bpy.ops.mesh.loop_multi_select(ring=False)
@@ -91,6 +91,7 @@ class ahs_convert_curve_to_mesh(bpy.types.Operator):
 		if self.is_pack_islands:
 			bpy.ops.object.mode_set(mode='EDIT')
 			bpy.ops.mesh.select_all(action='SELECT')
+			bpy.ops.uv.average_islands_scale()
 			bpy.ops.uv.pack_islands(rotate=False, margin=0.02)
 			bpy.ops.object.mode_set(mode='OBJECT')
 		

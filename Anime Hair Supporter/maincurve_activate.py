@@ -1,7 +1,7 @@
 import bpy, mathutils
 
-class ahs_tapercurve_activate_main(bpy.types.Operator):
-	bl_idname = 'object.ahs_tapercurve_activate_main'
+class ahs_maincurve_activate(bpy.types.Operator):
+	bl_idname = 'object.ahs_maincurve_activate'
 	bl_label = "メインへ"
 	bl_options = {'REGISTER', 'UNDO'}
 	

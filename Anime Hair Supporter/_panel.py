@@ -22,7 +22,9 @@ class VIEW3D_PT_tools_anime_hair_supporter(bpy.types.Panel):
 		
 		# メインカーブ
 		box = self.layout.box()
-		box.label("メインカーブ", icon='MAN_ROT')
+		row = box.row(align=True)
+		row.label("メインカーブ", icon='MAN_ROT')
+		row.operator('object.ahs_maincurve_activate', text="", icon='ZOOM_SELECTED')
 		
 		# 肉付け関係
 		row = box.row(align=True)
@@ -57,17 +59,13 @@ class VIEW3D_PT_tools_anime_hair_supporter(bpy.types.Panel):
 		else: row.label(text="次数:")
 		row.operator('object.ahs_maincurve_set_order', text="", icon='PREFERENCES')
 		
-		# アクティブ化
-		row = box.row(align=True)
-		row.operator('object.ahs_maincurve_activate_taper', text="テーパーへ", icon='ZOOM_SELECTED').mode = 'TAPER'
-		row.operator('object.ahs_maincurve_activate_taper', text="ベベルへ", icon='ZOOM_SELECTED').mode = 'BEVEL'
-		
 		
 		
 		# テーパーカーブ
 		box = self.layout.box()
-		row = box.row(align=False)
-		row.label("テーパーカーブ (太さ)", icon='CURVE_NCURVE')
+		row = box.row(align=True)
+		row.label("テーパーカーブ", icon='CURVE_NCURVE')
+		row.operator('object.ahs_tapercurve_activate', text="", icon='ZOOM_SELECTED').mode = 'TAPER'
 		row.operator('object.ahs_tapercurve_id_singlize', text="", icon='COPY_ID')
 		
 		# 種類を変更とか
@@ -107,17 +105,13 @@ class VIEW3D_PT_tools_anime_hair_supporter(bpy.types.Panel):
 		if not is_successed: row.label(text="解像度:")
 		row.operator('object.ahs_maincurve_set_resolution', text="", icon='PREFERENCES')
 		
-		# アクティブ化とか
-		row = box.row(align=True)
-		row.operator('object.ahs_tapercurve_activate_main', icon='ZOOM_SELECTED')
-		row.operator('object.ahs_tapercurve_activate_bevel', text="ベベルへ", icon='ZOOM_SELECTED').mode = 'BEVEL'
-		
 		
 		
 		# ベベルカーブ
 		box = self.layout.box()
-		row = box.row(align=False)
-		row.label("ベベルカーブ (断面)", icon='SURFACE_NCIRCLE')
+		row = box.row(align=True)
+		row.label("ベベルカーブ", icon='SURFACE_NCIRCLE')
+		row.operator('object.ahs_tapercurve_activate', text="", icon='ZOOM_SELECTED').mode = 'BEVEL'
 		row.operator('object.ahs_tapercurve_id_singlize', text="", icon='COPY_ID')
 		
 		# 種類を変更とか
@@ -156,11 +150,6 @@ class VIEW3D_PT_tools_anime_hair_supporter(bpy.types.Panel):
 			except: is_successed = False
 		if not is_successed: row.label(text="解像度:")
 		row.operator('object.ahs_maincurve_set_resolution', text="", icon='PREFERENCES')
-		
-		# アクティブ化とか
-		row = box.row(align=True)
-		row.operator('object.ahs_tapercurve_activate_main', icon='ZOOM_SELECTED')
-		row.operator('object.ahs_tapercurve_activate_bevel', text="テーパーへ", icon='ZOOM_SELECTED').mode = 'TAPER'
 		
 		
 		

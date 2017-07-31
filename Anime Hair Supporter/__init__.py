@@ -22,6 +22,7 @@ if 'bpy' in locals():
 	imp.reload(convert_edgemesh_to_curve)
 	imp.reload(convert_curve_to_edgemesh)
 	
+	imp.reload(maincurve_activate)
 	imp.reload(maincurve_fleshout)
 	imp.reload(maincurve_fleshlose)
 	imp.reload(maincurve_extra_deform)
@@ -30,17 +31,15 @@ if 'bpy' in locals():
 	imp.reload(maincurve_hide)
 	imp.reload(maincurve_set_resolution)
 	imp.reload(maincurve_set_order)
-	imp.reload(maincurve_activate_taper)
 	
+	imp.reload(tapercurve_activate)
 	imp.reload(tapercurve_id_singlize)
 	imp.reload(tapercurve_change_type)
 	imp.reload(tapercurve_move)
 	imp.reload(tapercurve_mirror)
 	imp.reload(tapercurve_select)
 	imp.reload(tapercurve_hide)
-	imp.reload(tapercurve_activate_main)
 	imp.reload(tapercurve_remove_alones)
-	imp.reload(tapercurve_activate_bevel)
 	
 	imp.reload(convert_curve_to_armature)
 	imp.reload(convert_curve_to_mesh)
@@ -50,6 +49,7 @@ else:
 	from . import convert_edgemesh_to_curve
 	from . import convert_curve_to_edgemesh
 	
+	from . import maincurve_activate
 	from . import maincurve_fleshout
 	from . import maincurve_fleshlose
 	from . import maincurve_extra_deform
@@ -58,17 +58,15 @@ else:
 	from . import maincurve_hide
 	from . import maincurve_set_resolution
 	from . import maincurve_set_order
-	from . import maincurve_activate_taper
 	
+	from . import tapercurve_activate
 	from . import tapercurve_id_singlize
 	from . import tapercurve_change_type
 	from . import tapercurve_move
 	from . import tapercurve_mirror
 	from . import tapercurve_select
 	from . import tapercurve_hide
-	from . import tapercurve_activate_main
 	from . import tapercurve_remove_alones
-	from . import tapercurve_activate_bevel
 	
 	from . import convert_curve_to_armature
 	from . import convert_curve_to_mesh

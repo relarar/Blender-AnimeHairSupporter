@@ -12,10 +12,10 @@ class VIEW3D_PT_tools_anime_hair_supporter(bpy.types.Panel):
 		# コンバーターズ
 		column = self.layout.column(align=True)
 		row = column.row(align=True)
-		row.operator('object.ahs_convert_edgemesh_to_curve', icon='IPO_CONSTANT')
+		row.operator('object.ahs_convert_edgemesh_to_curve', icon='IPO_EASE_IN_OUT')
 		row.enabled = bool( len([o for o in context.selected_objects if o.type == 'MESH']) )
 		row = column.row(align=True)
-		row.operator('object.ahs_convert_curve_to_edgemesh', icon='IPO_EASE_IN_OUT')
+		row.operator('object.ahs_convert_curve_to_edgemesh', icon='IPO_CONSTANT')
 		row.enabled = bool( len([o for o in context.selected_objects if o.type == 'CURVE']) )
 		
 		

@@ -9,8 +9,8 @@ bl_info = {
 	'location' : "3Dビュー > オブジェクトモード > ツールシェルフ > ツール > アニメ髪支援パネル",
 	'description' : "",
 	'warning' : "",
-	'wiki_url' : "",
-	'tracker_url' : "",
+	'wiki_url' : "https://github.com/saidenka/Blender-AnimeHairSupporter",
+	'tracker_url' : "https://github.com/saidenka/Blender-AnimeHairSupporter",
 	'category' : "Tools"
 }
 

@@ -13,10 +13,9 @@ class ahs_convert_curve_to_armature(bpy.types.Operator):
 	
 	def execute(self, context):
 		bone_points = []
-		
-		selected_curve_objects = [o for o in context.selected_objects if o.type == 'CURVE']
-		for ob in selected_curve_objects:
+		for ob in context.selected_objects:
 			ob.select = False
+			if ob.type != 'CURVE': continue
 			if not len(ob.data.splines): continue
 			if len(ob.data.splines[0].points) < 2: continue
 			
@@ -95,7 +94,7 @@ class ahs_convert_curve_to_armature(bpy.types.Operator):
 			prev_bone = None
 			for point_index, point in enumerate(local_bone_points):
 				if point_index == 0: continue
-				new_bone = new_arm.edit_bones.new("Hair:" + str(index) + "-" + str(point_index))
+				new_bone = new_arm.edit_bones.new("Hair " + str(index+1) + "-" + str(point_index))
 				new_bone.head = local_bone_points[point_index - 1].copy()
 				new_bone.tail = point.copy()
 				new_bone.parent = prev_bone

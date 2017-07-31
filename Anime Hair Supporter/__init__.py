@@ -19,8 +19,8 @@ if 'bpy' in locals():
 	import imp
 	imp.reload(_panel)
 	
-	imp.reload(convert_mesh_to_curve)
-	imp.reload(convert_curve_to_mesh)
+	imp.reload(convert_edgemesh_to_curve)
+	imp.reload(convert_curve_to_edgemesh)
 	
 	imp.reload(maincurve_fleshout)
 	imp.reload(maincurve_fleshlose)
@@ -42,11 +42,12 @@ if 'bpy' in locals():
 	imp.reload(tapercurve_remove_alones)
 	
 	imp.reload(convert_curve_to_armature)
+	imp.reload(convert_curve_to_mesh)
 else:
 	from . import _panel
 	
-	from . import convert_mesh_to_curve
-	from . import convert_curve_to_mesh
+	from . import convert_edgemesh_to_curve
+	from . import convert_curve_to_edgemesh
 	
 	from . import maincurve_fleshout
 	from . import maincurve_fleshlose
@@ -68,6 +69,7 @@ else:
 	from . import tapercurve_remove_alones
 	
 	from . import convert_curve_to_armature
+	from . import convert_curve_to_mesh
 
 # この位置に記述 (重要)
 import bpy

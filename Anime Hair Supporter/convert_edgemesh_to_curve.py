@@ -1,7 +1,7 @@
 import bpy, bmesh, mathutils
 
-class ahs_convert_mesh_to_curve(bpy.types.Operator):
-	bl_idname = 'object.ahs_convert_mesh_to_curve'
+class ahs_convert_edgemesh_to_curve(bpy.types.Operator):
+	bl_idname = 'object.ahs_convert_edgemesh_to_curve'
 	bl_label = "辺メッシュ > カーブ"
 	bl_options = {'REGISTER', 'UNDO'}
 	

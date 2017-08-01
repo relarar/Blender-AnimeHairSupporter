@@ -25,11 +25,9 @@ class VIEW3D_PT_tools_anime_hair_supporter(bpy.types.Panel):
 		# メインカーブ
 		box = self.layout.box()
 		row = box.row(align=True)
-		if props.maincurve_expand: expand_icon='TRIA_DOWN'
-		else: expand_icon='TRIA_RIGHT'
-		row.prop(props, 'maincurve_expand', icon=expand_icon, text="", emboss=False)
-		row.label("メインカーブ", icon='MAN_ROT')
+		row.prop(props, 'maincurve_expand', text="メインカーブ", icon='MAN_ROT', emboss=False)
 		row.operator('object.ahs_maincurve_activate', text="", icon='ZOOM_SELECTED')
+		row.label("", icon='BLANK1')
 		
 		if props.maincurve_expand:
 			
@@ -71,10 +69,7 @@ class VIEW3D_PT_tools_anime_hair_supporter(bpy.types.Panel):
 		# テーパーカーブ
 		box = self.layout.box()
 		row = box.row(align=True)
-		if props.tapercurve_expand: expand_icon='TRIA_DOWN'
-		else: expand_icon='TRIA_RIGHT'
-		row.prop(props, 'tapercurve_expand', icon=expand_icon, text="", emboss=False)
-		row.label("テーパーカーブ", icon='CURVE_NCURVE')
+		row.prop(props, 'tapercurve_expand', text="テーパーカーブ", icon='CURVE_NCURVE', emboss=False)
 		row.operator('object.ahs_tapercurve_activate', text="", icon='ZOOM_SELECTED').mode = 'TAPER'
 		row.operator('object.ahs_tapercurve_id_singlize', text="", icon='COPY_ID')
 		
@@ -122,10 +117,7 @@ class VIEW3D_PT_tools_anime_hair_supporter(bpy.types.Panel):
 		# ベベルカーブ
 		box = self.layout.box()
 		row = box.row(align=True)
-		if props.bevelcurve_expand: expand_icon='TRIA_DOWN'
-		else: expand_icon='TRIA_RIGHT'
-		row.prop(props, 'bevelcurve_expand', icon=expand_icon, text="", emboss=False)
-		row.label("ベベルカーブ", icon='SURFACE_NCIRCLE')
+		row.prop(props, 'bevelcurve_expand', text="ベベルカーブ", icon='SURFACE_NCIRCLE', emboss=False)
 		row.operator('object.ahs_tapercurve_activate', text="", icon='ZOOM_SELECTED').mode = 'BEVEL'
 		row.operator('object.ahs_tapercurve_id_singlize', text="", icon='COPY_ID')
 		

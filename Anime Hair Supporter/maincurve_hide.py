@@ -3,7 +3,7 @@ import bpy
 class ahs_maincurve_hide(bpy.types.Operator):
 	bl_idname = 'object.ahs_maincurve_hide'
 	bl_label = "隠す"
-	bl_description = "メインカーブをすべて隠す"
+	bl_description = "メインカーブをすべて隠す/表示"
 	bl_options = {'REGISTER', 'UNDO'}
 	
 	is_hide = bpy.props.BoolProperty(name="隠す")

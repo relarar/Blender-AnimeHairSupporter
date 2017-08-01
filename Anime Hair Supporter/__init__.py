@@ -76,10 +76,18 @@ import bpy
 
 # プラグインをインストールしたときの処理
 def register():
+	
+	class AHS_Props(bpy.types.PropertyGroup):
+		maincurve_expand = bpy.props.BoolProperty(name="メインパネルを展開", default=True)
+		tapercurve_expand = bpy.props.BoolProperty(name="テーパーパネルを展開", default=True)
+		bevelcurve_expand = bpy.props.BoolProperty(name="ベベルパネルを展開", default=True)
+	
 	bpy.utils.register_module(__name__)
+	bpy.types.Scene.ahs_props = bpy.props.PointerProperty(type=AHS_Props)
 
 # プラグインをアンインストールしたときの処理
 def unregister():
+	if bpy.context.scene.get('ahs_props'): del bpy.context.scene['ahs_props']
 	bpy.utils.unregister_module(__name__)
 
 # 最初に実行される

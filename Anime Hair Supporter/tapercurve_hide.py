@@ -3,7 +3,7 @@ import bpy
 class ahs_tapercurve_hide(bpy.types.Operator):
 	bl_idname = 'object.ahs_tapercurve_hide'
 	bl_label = "隠す"
-	bl_description = "テーパー/ベベルをすべて隠す"
+	bl_description = "テーパー/ベベルをすべて隠す/表示"
 	bl_options = {'REGISTER', 'UNDO'}
 	
 	items = [

@@ -4,7 +4,7 @@ from . import _common
 class ahs_tapercurve_change_type(bpy.types.Operator):
 	bl_idname = 'object.ahs_tapercurve_change_type'
 	bl_label = "種類を変更"
-	bl_description = "選択カーブのテーパー/ベベルの形状を一覧から変更"
+	bl_description = "選択カーブのテーパー/ベベルの形状を一覧から再設定"
 	bl_options = {'REGISTER', 'UNDO'}
 	
 	is_taper = bpy.props.BoolProperty(name="テーパーを変更")

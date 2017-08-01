@@ -3,7 +3,7 @@ import bpy
 class ahs_tapercurve_activate(bpy.types.Operator):
 	bl_idname = 'object.ahs_tapercurve_activate'
 	bl_label = "テーパー/ベベルをアクティブ化"
-	bl_description = "現在アクティブなメインカーブのテーパー/ベベルにアクティブを移す"
+	bl_description = "テーパー/ベベルにアクティブを移す"
 	bl_options = {'REGISTER', 'UNDO'}
 	
 	items = [
